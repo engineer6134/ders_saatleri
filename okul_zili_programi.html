@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tahir Kaya İmam Hatip Ortaokulu – Ders Programı</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Barlow+Condensed:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-dark: #1a5c3a;
+      --green-mid:  #247a4e;
+      --green-light:#2ecc71;
+      --gold:       #c9a227;
+      --gold-light: #f0c040;
+      --cream:      #fdf8ee;
+      --white:      #ffffff;
+      --gray-bg:    #f3f6f4;
+      --text:       #1a2a1e;
+      --text-muted: #5a7a65;
+      --red:        #c0392b;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--gray-bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ─────────────────────────────────── */
+    .site-header {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+      color: var(--white);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* MEB Logo – SVG inline */
+    .meb-logo svg { width: 64px; height: 64px; }
+
+    /* School logo circle */
+    .school-logo {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      border: 3px solid var(--gold);
+      flex-shrink: 0;
+    }
+    .school-logo svg { width: 56px; height: 56px; }
+
+    .header-title { flex: 1; text-align: center; }
+    .header-title h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .header-title p {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .header-clock {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .header-clock .big-time {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+    }
+    .header-clock .small-date {
+      font-size: 11px;
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+
+    /* ── MAIN LAYOUT ─────────────────────────────── */
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+      padding: 20px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    @media(max-width: 800px) {
+      .main { grid-template-columns: 1fr; }
+    }
+
+    /* ── PANEL CARD ──────────────────────────────── */
+    .card {
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: var(--green-dark);
+      color: var(--white);
+      padding: 10px 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-header .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold-light);
+    }
+
+    /* ── BELL TIMER BAR ──────────────────────────── */
+    .bell-bar {
+      background: var(--green-dark);
+      color: var(--white);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .bell-bar .label { opacity: 0.8; font-size: 12px; }
+    .bell-bar .countdown {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+    }
+    .bell-bar .status-txt { font-size: 12px; opacity: 0.75; }
+
+    .progress-wrap {
+      background: rgba(255,255,255,0.12);
+      height: 4px;
+      border-radius: 2px;
+      flex: 1;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold-light);
+      border-radius: 2px;
+      transition: width 1s linear;
+    }
+
+    /* ── SCHEDULE TABLE ──────────────────────────── */
+    .schedule-body { padding: 12px 16px; }
+
+    .period-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 110px;
+      align-items: center;
+      padding: 9px 10px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      gap: 8px;
+      transition: background .2s;
+      font-size: 13px;
+    }
+    .period-row:nth-child(even) { background: var(--gray-bg); }
+    .period-row.break-row {
+      background: #f0faf5;
+      color: var(--green-mid);
+      font-size: 12px;
+    }
+    .period-row.active-row {
+      background: #e6f9ef !important;
+      border: 2px solid var(--green-light);
+    }
+    .period-row.past-row { opacity: 0.4; }
+
+    .period-label { font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .period-label .icon { font-size: 15px; }
+    .period-time {
+      text-align: right;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      background: var(--green-dark);
+      color: var(--white);
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .break-row .period-time {
+      background: var(--green-mid);
+    }
+    .period-dur {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .active-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--green-dark);
+      background: var(--gold-light);
+      padding: 2px 7px;
+      border-radius: 10px;
+      margin-left: 4px;
+    }
+    .pulse { width:6px; height:6px; border-radius:50%; background:var(--green-dark); animation: pulse 1.2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+    /* ── WEEKEND MSG ─────────────────────────────── */
+    .weekend-msg {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .weekend-msg .icon { font-size: 56px; margin-bottom: 12px; }
+    .weekend-msg h2 { font-size: 22px; color: var(--green-dark); margin-bottom: 6px; }
+    .weekend-msg p  { font-size: 14px; color: var(--text-muted); }
+
+    /* ── ANNOUNCEMENT PANEL ──────────────────────── */
+    .announcement-panel { display: flex; flex-direction: column; gap: 0; }
+
+    .ann-item {
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--gray-bg);
+      cursor: default;
+      transition: background .15s;
+    }
+    .ann-item:last-child { border-bottom: none; }
+    .ann-item:hover { background: var(--gray-bg); }
+
+    .ann-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-red   { background:#fde8e8; color: var(--red); }
+    .badge-green { background:#e8f9ef; color: var(--green-dark); }
+    .badge-gold  { background:#fdf3d0; color: #7a5c00; }
+    .badge-blue  { background:#e8f0fe; color: #1a3a8f; }
+
+    .ann-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .ann-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .ann-date {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
+    /* ── DUTY BOX ────────────────────────────────── */
+    .duty-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 14px;
+    }
+    .duty-item {
+      background: var(--gray-bg);
+      border-radius: 8px;
+      padding: 9px 11px;
+      font-size: 12px;
+    }
+    .duty-item .duty-role {
+      font-weight: 700;
+      color: var(--green-dark);
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+    .duty-item .duty-name { color: var(--text); }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    .site-footer {
+      text-align: center;
+      padding: 14px;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px solid #dde;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+<header class="site-header">
+  <div class="logo-wrap">
+    <!-- MEB Logo -->
+    <div class="meb-logo">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="47" fill="#c8102e" stroke="#fff" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="40" fill="#c8102e" stroke="#fff" stroke-width="1"/>
+        <!-- Star crescent symbolic -->
+        <text x="50" y="38" text-anchor="middle" font-size="11" fill="#fff" font-family="serif" font-weight="bold">T.C.</text>
+        <text x="50" y="52" text-anchor="middle" font-size="7" fill="#fff" font-family="sans-serif">MİLLÎ EĞİTİM</text>
+        <text x="50" y="62" text-anchor="middle" font-size="7" fill="#fff" font-family="sans-serif">BAKANLIĞI</text>
+        <!-- Book symbol -->
+        <rect x="34" y="66" width="32" height="4" rx="1" fill="#fff" opacity=".8"/>
+        <line x1="50" y1="66" x2="50" y2="70" stroke="#c8102e" stroke-width="1"/>
+        <!-- Crescent + star -->
+        <path d="M50 18 A8 8 0 1 1 42 26 A6 6 0 1 0 50 18Z" fill="#fff" opacity=".9"/>
+        <polygon points="56,18 57.5,22.5 62,22.5 58.5,25.2 59.8,30 56,27.2 52.2,30 53.5,25.2 50,22.5 54.5,22.5" fill="#fff" opacity=".9"/>
+      </svg>
+    </div>
+
+    <!-- School Logo -->
+    <div class="school-logo">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#1a5c3a"/>
+        <circle cx="50" cy="50" r="43" fill="none" stroke="#c9a227" stroke-width="2"/>
+        <!-- TK letters -->
+        <text x="50" y="48" text-anchor="middle" font-size="22" font-weight="bold" fill="#c9a227" font-family="serif">TK</text>
+        <text x="50" y="62" text-anchor="middle" font-size="7" fill="#fff" font-family="sans-serif">İHO</text>
+        <text x="50" y="73" text-anchor="middle" font-size="6" fill="#c9a227" font-family="sans-serif">PENDİK</text>
+        <!-- Star -->
+        <polygon points="50,18 52,24 58,24 53,28 55,34 50,30 45,34 47,28 42,24 48,24" fill="#c9a227" opacity=".9"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="header-title">
+    <h1>Tahir Kaya İmam Hatip Ortaokulu</h1>
+    <p>Pendik / İstanbul &nbsp;·&nbsp; Ders Programı Ekranı</p>
+  </div>
+
+  <div class="header-clock">
+    <div class="big-time" id="clock">--:--:--</div>
+    <div class="small-date" id="date-str">---</div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════ MAIN ════════════════════════════ -->
+<div class="main">
+
+  <!-- LEFT: Schedule -->
+  <div>
+    <div class="card" id="schedule-card">
+      <!-- Bell timer bar -->
+      <div class="bell-bar" id="bell-bar">
+        <div>
+          <div class="label">Zile Kalan Süre</div>
+          <div class="status-txt" id="bell-status">Hesaplanıyor…</div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="countdown" id="bell-timer">--:--</div>
+      </div>
+
+      <div class="card-header"><div class="dot"></div>Günlük Ders Çizelgesi</div>
+
+      <!-- Weekend message OR schedule -->
+      <div id="schedule-body" class="schedule-body"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Announcements + Duty -->
+  <div style="display:flex;flex-direction:column;gap:16px;">
+
+    <!-- Announcements -->
+    <div class="card">
+      <div class="card-header"><div class="dot"></div>📢 Duyuru Panosu</div>
+      <div class="announcement-panel" id="announcements">
+
+        <div class="ann-item">
+          <span class="ann-badge badge-red">🔴 Önemli</span>
+          <div class="ann-title">İngilizce Proje Sınıfı Sınavı</div>
+          <div class="ann-desc">10 Mayıs 2026 Pazar – Saat 10:00'da sınav yapılacaktır. 4. sınıf öğrencileri başvurabilir.</div>
+          <div class="ann-date">Son başvuru: 08 Mayıs 2026</div>
+        </div>
+
+        <div class="ann-item">
+          <span class="ann-badge badge-gold">📋 Başvuru</span>
+          <div class="ann-title">Proje Sınıfı Kayıt Başvurusu</div>
+          <div class="ann-desc">50 kız + 50 erkek öğrenci alınacak. Sınıflar 25 kişilik. Başvuru formu için QR kodu okutun veya müdürlüğe başvurun.</div>
+          <div class="ann-date">forms.gle/428ne1KUYGxrYHm88</div>
+        </div>
+
+        <div class="ann-item">
+          <span class="ann-badge badge-green">✅ Genel</span>
+          <div class="ann-title">Okul Aile Birliği Toplantısı</div>
+          <div class="ann-desc">15 Mayıs 2026 Cuma günü saat 17:30'da toplantı gerçekleştirilecektir.</div>
+          <div class="ann-date">15 Mayıs 2026</div>
+        </div>
+
+        <div class="ann-item">
+          <span class="ann-badge badge-blue">📚 Eğitim</span>
+          <div class="ann-title">Kütüphane Yenileme Çalışması</div>
+          <div class="ann-desc">Okul kütüphanesi 12–14 Mayıs tarihleri arasında bakım için kapalı olacaktır.</div>
+          <div class="ann-date">12 – 14 Mayıs 2026</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Duty teachers -->
+    <div class="card">
+      <div class="card-header"><div class="dot"></div>👮 Günün Nöbetçi Öğretmenleri</div>
+      <div class="duty-grid">
+        <div class="duty-item">
+          <div class="duty-role">🌿 Bahçe</div>
+          <div class="duty-name">Ahmet GÜLMEZ</div>
+        </div>
+        <div class="duty-item">
+          <div class="duty-role">🏢 Zemin Kat</div>
+          <div class="duty-name">Elif ŞEN</div>
+        </div>
+        <div class="duty-item">
+          <div class="duty-role">1️⃣ 1. Kat</div>
+          <div class="duty-name">Mehmet IŞIK</div>
+        </div>
+        <div class="duty-item">
+          <div class="duty-role">2️⃣ 2. Kat</div>
+          <div class="duty-name">Arzu DOĞAN</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  Tahir Kaya İmam Hatip Ortaokulu &nbsp;·&nbsp; Pendik / İstanbul &nbsp;·&nbsp; MEB
+</footer>
+
+<script>
+  // ── Schedules by weekday (0=Sun,6=Sat → weekend) ─────────────
+  const schedulesByDay = {
+    1: [ // Pazartesi
+      { label:'1. DERS',     start:'08:00', end:'08:40', type:'lesson' },
+      { label:'1. TENEFFÜS', start:'08:40', end:'08:50', type:'break'  },
+      { label:'2. DERS',     start:'08:50', end:'09:30', type:'lesson' },
+      { label:'2. TENEFFÜS', start:'09:30', end:'09:40', type:'break'  },
+      { label:'3. DERS',     start:'09:40', end:'10:20', type:'lesson' },
+      { label:'3. TENEFFÜS', start:'10:20', end:'10:30', type:'break'  },
+      { label:'4. DERS',     start:'10:30', end:'11:10', type:'lesson' },
+      { label:'4. TENEFFÜS', start:'11:10', end:'11:20', type:'break'  },
+      { label:'5. DERS',     start:'11:20', end:'12:00', type:'lesson' },
+      { label:'5. TENEFFÜS', start:'12:00', end:'12:10', type:'break'  },
+      { label:'6. DERS',     start:'12:10', end:'12:50', type:'lesson' },
+      { label:'6. TENEFFÜS', start:'12:50', end:'13:00', type:'break'  },
+      { label:'7. DERS',     start:'13:00', end:'13:40', type:'lesson' },
+      { label:'7. TENEFFÜS', start:'13:40', end:'13:50', type:'break'  },
+      { label:'8. DERS',     start:'13:50', end:'14:30', type:'lesson' },
+    ],
+    2: [ // Salı
+      { label:'1. DERS',     start:'08:00', end:'08:40', type:'lesson' },
+      { label:'1. TENEFFÜS', start:'08:40', end:'08:50', type:'break'  },
+      { label:'2. DERS',     start:'08:50', end:'09:30', type:'lesson' },
+      { label:'2. TENEFFÜS', start:'09:30', end:'09:40', type:'break'  },
+      { label:'3. DERS',     start:'09:40', end:'10:20', type:'lesson' },
+      { label:'3. TENEFFÜS', start:'10:20', end:'10:30', type:'break'  },
+      { label:'4. DERS',     start:'10:30', end:'11:10', type:'lesson' },
+      { label:'4. TENEFFÜS', start:'11:10', end:'11:20', type:'break'  },
+      { label:'5. DERS',     start:'11:20', end:'12:00', type:'lesson' },
+      { label:'5. TENEFFÜS', start:'12:00', end:'12:10', type:'break'  },
+      { label:'6. DERS',     start:'12:10', end:'12:50', type:'lesson' },
+      { label:'6. TENEFFÜS', start:'12:50', end:'13:00', type:'break'  },
+      { label:'7. DERS',     start:'13:00', end:'13:40', type:'lesson' },
+    ],
+    3: [ // Çarşamba
+      { label:'1. DERS',     start:'08:00', end:'08:40', type:'lesson' },
+      { label:'1. TENEFFÜS', start:'08:40', end:'08:50', type:'break'  },
+      { label:'2. DERS',     start:'08:50', end:'09:30', type:'lesson' },
+      { label:'2. TENEFFÜS', start:'09:30', end:'09:40', type:'break'  },
+      { label:'3. DERS',     start:'09:40', end:'10:20', type:'lesson' },
+      { label:'3. TENEFFÜS', start:'10:20', end:'10:30', type:'break'  },
+      { label:'4. DERS',     start:'10:30', end:'11:10', type:'lesson' },
+      { label:'4. TENEFFÜS', start:'11:10', end:'11:20', type:'break'  },
+      { label:'5. DERS',     start:'11:20', end:'12:00', type:'lesson' },
+      { label:'5. TENEFFÜS', start:'12:00', end:'12:10', type:'break'  },
+      { label:'6. DERS',     start:'12:10', end:'12:50', type:'lesson' },
+      { label:'6. TENEFFÜS', start:'12:50', end:'13:00', type:'break'  },
+      { label:'7. DERS',     start:'13:00', end:'13:40', type:'lesson' },
+    ],
+    4: [ // Perşembe
+      { label:'1. DERS',     start:'08:00', end:'08:40', type:'lesson' },
+      { label:'1. TENEFFÜS', start:'08:40', end:'08:50', type:'break'  },
+      { label:'2. DERS',     start:'08:50', end:'09:30', type:'lesson' },
+      { label:'2. TENEFFÜS', start:'09:30', end:'09:40', type:'break'  },
+      { label:'3. DERS',     start:'09:40', end:'10:20', type:'lesson' },
+      { label:'3. TENEFFÜS', start:'10:20', end:'10:30', type:'break'  },
+      { label:'4. DERS',     start:'10:30', end:'11:10', type:'lesson' },
+      { label:'4. TENEFFÜS', start:'11:10', end:'11:20', type:'break'  },
+      { label:'5. DERS',     start:'11:20', end:'12:00', type:'lesson' },
+      { label:'5. TENEFFÜS', start:'12:00', end:'12:10', type:'break'  },
+      { label:'6. DERS',     start:'12:10', end:'12:50', type:'lesson' },
+      { label:'6. TENEFFÜS', start:'12:50', end:'13:00', type:'break'  },
+      { label:'7. DERS',     start:'13:00', end:'13:40', type:'lesson' },
+    ],
+    5: [ // Cuma
+      { label:'1. DERS',     start:'08:00', end:'08:40', type:'lesson' },
+      { label:'1. TENEFFÜS', start:'08:40', end:'08:50', type:'break'  },
+      { label:'2. DERS',     start:'08:50', end:'09:30', type:'lesson' },
+      { label:'2. TENEFFÜS', start:'09:30', end:'09:40', type:'break'  },
+      { label:'3. DERS',     start:'09:40', end:'10:20', type:'lesson' },
+      { label:'3. TENEFFÜS', start:'10:20', end:'10:30', type:'break'  },
+      { label:'4. DERS',     start:'10:30', end:'11:10', type:'lesson' },
+      { label:'4. TENEFFÜS', start:'11:10', end:'11:20', type:'break'  },
+      { label:'5. DERS',     start:'11:20', end:'12:00', type:'lesson' },
+      { label:'5. TENEFFÜS', start:'12:00', end:'12:10', type:'break'  },
+      { label:'6. DERS',     start:'12:10', end:'12:50', type:'lesson' },
+      { label:'6. TENEFFÜS', start:'12:50', end:'13:00', type:'break'  },
+      { label:'7. DERS',     start:'13:30', end:'14:10', type:'lesson' },
+    ],
+  };
+
+  function toMin(t) {
+    const [h,m] = t.split(':').map(Number);
+    return h*60+m;
+  }
+
+  function nowMin() {
+    const n=new Date();
+    return n.getHours()*60+n.getMinutes()+n.getSeconds()/60;
+  }
+
+  function getDay() { return new Date().getDay(); } // 0=Sun,6=Sat
+
+  function isWeekend() { const d=getDay(); return d===0||d===6; }
+
+  function getTodaySchedule() {
+    return schedulesByDay[getDay()] || [];
+  }
+
+  // ── RENDER SCHEDULE ──────────────────────────────────────────
+  function renderSchedule() {
+    const body = document.getElementById('schedule-body');
+    const bellBar = document.getElementById('bell-bar');
+
+    if (isWeekend()) {
+      const dayName = getDay()===6 ? 'Cumartesi' : 'Pazar';
+      body.innerHTML = `
+        <div class="weekend-msg">
+          <div class="icon">🌙</div>
+          <h2>Bugün ${dayName} – Tatil</h2>
+          <p>Hafta sonu tatilinde ders programı uygulanmaz.<br>Pazartesi görüşmek üzere! 📚</p>
+        </div>`;
+      bellBar.style.display = 'none';
+      return;
+    }
+
+    const schedule = getTodaySchedule();
+    if (!schedule.length) {
+      body.innerHTML = '<div class="weekend-msg"><div class="icon">📋</div><h2>Program bulunamadı</h2></div>';
+      return;
+    }
+
+    const nm = nowMin();
+    let html = '';
+
+    schedule.forEach(item => {
+      const start = toMin(item.start);
+      const end   = toMin(item.end);
+      const isActive = nm >= start && nm < end;
+      const isPast   = nm >= end;
+      const isLesson = item.type === 'lesson';
+      const dur = end - start;
+
+      let cls = 'period-row';
+      if (!isLesson) cls += ' break-row';
+      if (isActive)  cls += ' active-row';
+      if (isPast)    cls += ' past-row';
+
+      const icon = isLesson ? '📖' : '☕';
+      const badge = isActive ? `<span class="active-badge"><span class="pulse"></span>Şimdi</span>` : '';
+
+      html += `
+        <div class="${cls}">
+          <div class="period-label"><span class="icon">${icon}</span>${item.label}${badge}</div>
+          <div class="period-dur">${dur} dk</div>
+          <div class="period-time">${item.start} – ${item.end}</div>
+        </div>`;
+    });
+
+    body.innerHTML = html;
+  }
+
+  // ── BELL TIMER ───────────────────────────────────────────────
+  function updateBell() {
+    if (isWeekend()) return;
+    const schedule = getTodaySchedule();
+    const now = new Date();
+    const nm  = now.getHours()*60+now.getMinutes()+now.getSeconds()/60;
+
+    let nextEnd = null, segStart = null, segEnd = null, label = '';
+
+    for (let i=0; i<schedule.length; i++) {
+      const s = toMin(schedule[i].start);
+      const e = toMin(schedule[i].end);
+      if (nm < s) {
+        nextEnd=s; segStart=nm; segEnd=s;
+        label = schedule[i].type==='lesson' ? '⏰ Derse kalan' : '☕ Teneffüse kalan';
+        break;
+      }
+      if (nm < e) {
+        nextEnd=e; segStart=s; segEnd=e;
+        label = schedule[i].type==='lesson' ? '🔔 Zile kalan' : '📖 Derse kalan';
+        break;
+      }
+    }
+
+    const statusEl  = document.getElementById('bell-status');
+    const timerEl   = document.getElementById('bell-timer');
+    const progressEl= document.getElementById('progress-fill');
+
+    if (nextEnd===null) {
+      statusEl.textContent  = '🎒 Bugünkü dersler sona erdi!';
+      timerEl.textContent   = '--';
+      progressEl.style.width = '100%';
+      return;
+    }
+
+    const totalSec = Math.round((segEnd-segStart)*60);
+    const passedSec= Math.round((nm-segStart)*60);
+    const remSec   = Math.max(0, Math.round((nextEnd-nm)*60));
+    const pct      = Math.min(100, Math.round(passedSec/totalSec*100));
+
+    const m = Math.floor(remSec/60);
+    const s = remSec%60;
+    statusEl.textContent  = label;
+    timerEl.textContent   = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    progressEl.style.width= pct+'%';
+  }
+
+  // ── CLOCK ────────────────────────────────────────────────────
+  function updateClock() {
+    const n=new Date();
+    const pad=v=>String(v).padStart(2,'0');
+    document.getElementById('clock').textContent=
+      `${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
+
+    const days=['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+    const months=['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+    document.getElementById('date-str').textContent=
+      `${days[n.getDay()]}, ${n.getDate()} ${months[n.getMonth()]} ${n.getFullYear()}`;
+  }
+
+  // ── INIT ─────────────────────────────────────────────────────
+  function tick() {
+    updateClock();
+    renderSchedule();
+    updateBell();
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
