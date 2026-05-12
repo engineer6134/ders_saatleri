@@ -1197,32 +1197,32 @@
         function getCreds() { return { u: localStorage.getItem('iho_u') || DEF_U, p: localStorage.getItem('iho_p') || DEF_P }; }
 
         function doLogin() {
-  const u = document.getElementById('login-user').value.trim();
-  const p = document.getElementById('login-pass').value;
-  const token = document.getElementById('github-token').value.trim();
-  const repo = document.getElementById('github-repo').value.trim();
-  const c = getCreds();
-  
-  if (u === c.u && p === c.p) {
-    sessionStorage.setItem('iho_auth', '1');
-    if (token) {
-      sessionStorage.setItem('github_token', token);
-      console.log('Token kaydedildi, ilk 10 karakter:', token.substring(0, 10));
-    }
-    if (repo) {
-      sessionStorage.setItem('github_repo', repo);
-      console.log('Repo kaydedildi:', repo);
-    }
-    githubToken = token;
-    githubRepo = repo;
-    document.getElementById('login-screen').classList.add('hidden');
-    document.getElementById('login-error').classList.remove('show');
-    loadInitialData();
-    toast('Giriş başarılı! GitHub token hazır.');
-  } else {
-    document.getElementById('login-error').classList.add('show');
-  }
-}
+            const u = document.getElementById('login-user').value.trim();
+            const p = document.getElementById('login-pass').value;
+            const token = document.getElementById('github-token').value.trim();
+            const repo = document.getElementById('github-repo').value.trim();
+            const c = getCreds();
+
+            if (u === c.u && p === c.p) {
+                sessionStorage.setItem('iho_auth', '1');
+                if (token) {
+                    sessionStorage.setItem('github_token', token);
+                    console.log('Token kaydedildi, ilk 10 karakter:', token.substring(0, 10));
+                }
+                if (repo) {
+                    sessionStorage.setItem('github_repo', repo);
+                    console.log('Repo kaydedildi:', repo);
+                }
+                githubToken = token;
+                githubRepo = repo;
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('login-error').classList.remove('show');
+                loadInitialData();
+                toast('Giriş başarılı! GitHub token hazır.');
+            } else {
+                document.getElementById('login-error').classList.add('show');
+            }
+        }
 
         function doLogout() { sessionStorage.removeItem('iho_auth'); sessionStorage.removeItem('github_token'); sessionStorage.removeItem('github_repo'); location.reload(); }
 
@@ -1242,6 +1242,7 @@
         }
 
         // === GITHUB API ===
+        // GÜNCELLENMİŞ VE ÇALIŞAN syncToGitHub fonksiyonu
         async function syncToGitHub() {
             const token = sessionStorage.getItem('github_token') || githubToken;
             const repo = sessionStorage.getItem('github_repo') || githubRepo;
@@ -1251,6 +1252,7 @@
                 return;
             }
 
+            // Token'ı temizle
             const cleanToken = token.trim();
             const [owner, repoName] = repo.split('/');
 
@@ -1259,9 +1261,10 @@
                 return;
             }
 
-            toast('GitHub\'a kaydediliyor...');
+            toast('GitHub\'a kaydediliyor... Lütfen bekleyin.');
 
             try {
+                // Veriyi topla
                 const dutyObj = {};
                 DUTY_AREAS.forEach((area, i) => {
                     dutyObj[area] = document.getElementById(DUTY_FIELD_IDS[i])?.value || '';
@@ -1279,30 +1282,47 @@
                     updatedAt: new Date().toISOString()
                 };
 
+                // JSON'u Base64'e çevir
                 const jsonString = JSON.stringify(payload, null, 2);
                 const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
+
                 const apiUrl = `https://api.github.com/repos/${owner}/${repoName}/contents/data.json`;
 
+                // Önce dosyayı kontrol et (SHA için)
                 let sha = null;
-                const getRes = await fetch(apiUrl, {
-                    method: 'GET',
-                    headers: { 'Authorization': `Bearer ${cleanToken}`, 'Accept': 'application/vnd.github.v3+json' }
-                });
+                try {
+                    const getRes = await fetch(apiUrl, {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `token ${cleanToken}`,  // "Bearer" değil "token" kullan!
+                            'Accept': 'application/vnd.github.v3+json',
+                            'User-Agent': 'Okul-Paneli/1.0'
+                        }
+                    });
 
-                if (getRes.ok) {
-                    const fileData = await getRes.json();
-                    sha = fileData.sha;
-                } else if (getRes.status !== 404) {
-                    const err = await getRes.json();
-                    throw new Error(`Dosya kontrol hatası: ${err.message}`);
+                    if (getRes.ok) {
+                        const fileData = await getRes.json();
+                        sha = fileData.sha;
+                        console.log('Dosya bulundu, SHA:', sha);
+                    } else if (getRes.status === 404) {
+                        console.log('Dosya bulunamadı, yeni oluşturulacak');
+                    } else {
+                        const err = await getRes.json();
+                        console.warn('Dosya kontrol hatası:', err);
+                        // 404 değilse devam et, belki dosya yok
+                    }
+                } catch (e) {
+                    console.log('Dosya kontrol edilemedi, yeni oluşturulacak:', e);
                 }
 
+                // Dosyayı kaydet/güncelle
                 const putRes = await fetch(apiUrl, {
                     method: 'PUT',
                     headers: {
-                        'Authorization': `Bearer ${cleanToken}`,
+                        'Authorization': `token ${cleanToken}`,  // "Bearer" değil "token" kullan!
                         'Content-Type': 'application/json',
-                        'Accept': 'application/vnd.github.v3+json'
+                        'Accept': 'application/vnd.github.v3+json',
+                        'User-Agent': 'Okul-Paneli/1.0'
                     },
                     body: JSON.stringify({
                         message: `Veri güncellemesi - ${new Date().toLocaleString('tr-TR')}`,
@@ -1312,13 +1332,23 @@
                 });
 
                 if (putRes.ok) {
+                    const result = await putRes.json();
+                    console.log('Başarılı:', result.content.html_url);
                     toast('✅ Veriler GitHub\'a başarıyla kaydedildi!');
                     document.getElementById('github-status').innerHTML = '✓ Son kayıt: ' + new Date().toLocaleTimeString('tr-TR');
+                    document.getElementById('sync-status').innerHTML = '<span class="sync-dot"></span> GitHub Bağlı';
                 } else {
                     const errorData = await putRes.json();
-                    toast('❌ GitHub hatası: ' + (errorData.message || 'Bilinmeyen hata'), 'error');
+                    console.error('GitHub hatası:', errorData);
+                    if (errorData.message === 'Bad credentials') {
+                        toast('❌ Token geçersiz! Lütfen yeni bir GitHub token oluşturun ve tekrar deneyin.', 'error');
+                    } else {
+                        toast('❌ GitHub hatası: ' + (errorData.message || 'Bilinmeyen hata'), 'error');
+                    }
                 }
+
             } catch (e) {
+                console.error('Bağlantı hatası:', e);
                 toast('Bağlantı hatası: ' + e.message, 'error');
             }
         }
