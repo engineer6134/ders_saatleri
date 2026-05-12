@@ -1,0 +1,33 @@
+{
+  "announcements": [
+    {
+      "id": 1,
+      "title": "Hoş Geldiniz",
+      "type": "green",
+      "date": "Bugün",
+      "desc": "Okul yönetim paneline hoş geldiniz.",
+      "status": "active",
+      "pinned": true
+    }
+  ],
+  "duty": {
+    "🌿 Bahçe": "Ahmet GÜLMEZ",
+    "🏢 Zemin Kat": "Elif ŞEN",
+    "1️⃣ 1. Kat": "Mehmet IŞIK",
+    "2️⃣ 2. Kat": "Arzu DOĞAN",
+    "🚻 Koridor": ""
+  },
+  "schedulesByDay": {
+    "1": [],
+    "2": [],
+    "3": [],
+    "4": [],
+    "5": []
+  },
+  "settings": {
+    "schoolName": "Tahir Kaya İmam Hatip Ortaokulu",
+    "location": "Pendik / İstanbul",
+    "subtitle": "Ders Programı Ekranı"
+  },
+  "updatedAt": "2026-01-01T00:00:00.000Z"
+}
