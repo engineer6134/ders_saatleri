@@ -1,6 +1,15 @@
 {
   "announcements": [
     {
+      "id": 10,
+      "title": "Halı Sahada Müsabaka",
+      "type": "red",
+      "date": "",
+      "desc": "",
+      "status": "active",
+      "pinned": false
+    },
+    {
       "id": 1,
       "title": "İngilizce Proje Sınavı",
       "type": "red",
@@ -454,5 +463,5 @@
     "location": "Pendik / İstanbul",
     "subtitle": "Ders Programı Ekranı"
   },
-  "updatedAt": "2026-05-12T12:31:30.921Z"
+  "updatedAt": "2026-05-12T12:32:00.169Z"
 }
