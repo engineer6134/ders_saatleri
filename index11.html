@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tahir Kaya İmam Hatip Ortaokulu – Ders Programı</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Barlow+Condensed:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-dark: #1a5c3a;
+      --green-mid:  #247a4e;
+      --green-light:#2ecc71;
+      --gold:       #c9a227;
+      --gold-light: #f0c040;
+      --cream:      #fdf8ee;
+      --white:      #ffffff;
+      --gray-bg:    #f3f6f4;
+      --text:       #1a2a1e;
+      --text-muted: #5a7a65;
+      --red:        #c0392b;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--gray-bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ─────────────────────────────────── */
+    .site-header {
+      background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 100%);
+      color: var(--white);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      flex-wrap: wrap;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .meb-logo svg { width: 64px; height: 64px; }
+
+    .school-logo {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      border: 3px solid var(--gold);
+      flex-shrink: 0;
+    }
+    .school-logo svg { width: 56px; height: 56px; }
+
+    .header-title { flex: 1; text-align: center; }
+    .header-title h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+    .header-title p {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-top: 3px;
+      letter-spacing: 0.5px;
+    }
+
+    .header-clock {
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .header-clock .big-time {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+    }
+    .header-clock .small-date {
+      font-size: 11px;
+      opacity: 0.75;
+      margin-top: 2px;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 20px;
+      padding: 20px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    @media(max-width: 768px) {
+      .main { grid-template-columns: 1fr; }
+    }
+
+    /* ── PANEL CARD ── */
+    .card {
+      background: var(--white);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .card-header {
+      background: var(--green-dark);
+      color: var(--white);
+      padding: 10px 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-header .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold-light);
+    }
+
+    /* ── BELL TIMER BAR ── */
+    .bell-bar {
+      background: var(--green-dark);
+      color: var(--white);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .bell-bar .label { opacity: 0.8; font-size: 12px; }
+    .bell-bar .countdown {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--gold-light);
+      letter-spacing: 2px;
+    }
+    .bell-bar .status-txt { font-size: 12px; opacity: 0.75; }
+
+    .progress-wrap {
+      background: rgba(255,255,255,0.12);
+      height: 4px;
+      border-radius: 2px;
+      flex: 1;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold-light);
+      border-radius: 2px;
+      transition: width 1s linear;
+    }
+
+    /* ── SCHEDULE TABLE ── */
+    .schedule-body { padding: 12px 16px; }
+
+    .period-row {
+      display: grid;
+      grid-template-columns: 110px 1fr 110px;
+      align-items: center;
+      padding: 9px 10px;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      gap: 8px;
+      transition: background .2s;
+      font-size: 13px;
+    }
+    .period-row:nth-child(even) { background: var(--gray-bg); }
+    .period-row.break-row {
+      background: #f0faf5;
+      color: var(--green-mid);
+      font-size: 12px;
+    }
+    .period-row.active-row {
+      background: #e6f9ef !important;
+      border: 2px solid var(--green-light);
+    }
+    .period-row.past-row { opacity: 0.4; }
+
+    .period-label { font-weight: 700; display: flex; align-items: center; gap: 6px; }
+    .period-label .icon { font-size: 15px; }
+    .period-time {
+      text-align: right;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      background: var(--green-dark);
+      color: var(--white);
+      padding: 4px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+    .break-row .period-time {
+      background: var(--green-mid);
+    }
+    .period-dur {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .active-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--green-dark);
+      background: var(--gold-light);
+      padding: 2px 7px;
+      border-radius: 10px;
+      margin-left: 4px;
+    }
+    .pulse { width:6px; height:6px; border-radius:50%; background:var(--green-dark); animation: pulse 1.2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+    /* ── WEEKEND MSG ── */
+    .weekend-msg {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .weekend-msg .icon { font-size: 56px; margin-bottom: 12px; }
+    .weekend-msg h2 { font-size: 22px; color: var(--green-dark); margin-bottom: 6px; }
+    .weekend-msg p  { font-size: 14px; color: var(--text-muted); }
+
+    /* ── ANNOUNCEMENT PANEL ── */
+    .announcement-panel { display: flex; flex-direction: column; gap: 0; }
+
+    .ann-item {
+      padding: 13px 16px;
+      border-bottom: 1px solid var(--gray-bg);
+      cursor: default;
+      transition: background .15s;
+    }
+    .ann-item:last-child { border-bottom: none; }
+    .ann-item:hover { background: var(--gray-bg); }
+
+    .ann-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-red   { background:#fde8e8; color: var(--red); }
+    .badge-green { background:#e8f9ef; color: var(--green-dark); }
+    .badge-gold  { background:#fdf3d0; color: #7a5c00; }
+    .badge-blue  { background:#e8f0fe; color: #1a3a8f; }
+
+    .ann-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+    .ann-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .ann-date {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      opacity: 0.7;
+    }
+
+    /* ── DUTY BOX ── */
+    .duty-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      padding: 14px;
+    }
+    .duty-item {
+      background: var(--gray-bg);
+      border-radius: 8px;
+      padding: 9px 11px;
+      font-size: 12px;
+    }
+    .duty-item .duty-role {
+      font-weight: 700;
+      color: var(--green-dark);
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+    .duty-item .duty-name { color: var(--text); }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      text-align: center;
+      padding: 14px;
+      font-size: 11px;
+      color: var(--text-muted);
+      border-top: 1px solid #dde;
+      margin-top: 8px;
+    }
+
+    /* ── LOADING ── */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    .sync-info {
+      background: #e8f5e9;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width: 768px) {
+      .site-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+        padding: 12px;
+      }
+      .logo-wrap {
+        justify-content: center;
+        width: 100%;
+      }
+      .header-title {
+        order: -1;
+      }
+      .header-clock {
+        text-align: center;
+      }
+      .big-time {
+        font-size: 28px;
+      }
+      .period-row {
+        grid-template-columns: 80px 1fr 80px;
+        padding: 8px 6px;
+        font-size: 12px;
+      }
+      .duty-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media(max-width: 480px) {
+      .period-row {
+        grid-template-columns: 70px 1fr 70px;
+        font-size: 11px;
+      }
+      .period-time {
+        font-size: 12px;
+        padding: 2px 6px;
+      }
+      .ann-title {
+        font-size: 12px;
+      }
+      .ann-desc {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ HEADER ═══════════════════════════ -->
+<header class="site-header">
+  <div class="logo-wrap">
+    <div class="meb-logo">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="47" fill="#c8102e" stroke="#fff" stroke-width="1.5"/>
+        <circle cx="50" cy="50" r="40" fill="#c8102e" stroke="#fff" stroke-width="1"/>
+        <text x="50" y="38" text-anchor="middle" font-size="11" fill="#fff" font-family="serif" font-weight="bold">T.C.</text>
+        <text x="50" y="52" text-anchor="middle" font-size="7" fill="#fff" font-family="sans-serif">MİLLÎ EĞİTİM</text>
+        <text x="50" y="62" text-anchor="middle" font-size="7" fill="#fff" font-family="sans-serif">BAKANLIĞI</text>
+        <rect x="34" y="66" width="32" height="4" rx="1" fill="#fff" opacity=".8"/>
+        <line x1="50" y1="66" x2="50" y2="70" stroke="#c8102e" stroke-width="1"/>
+        <path d="M50 18 A8 8 0 1 1 42 26 A6 6 0 1 0 50 18Z" fill="#fff" opacity=".9"/>
+        <polygon points="56,18 57.5,22.5 62,22.5 58.5,25.2 59.8,30 56,27.2 52.2,30 53.5,25.2 50,22.5 54.5,22.5" fill="#fff" opacity=".9"/>
+      </svg>
+    </div>
+    <div class="school-logo" id="school-logo-container">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="48" fill="#1a5c3a"/>
+        <circle cx="50" cy="50" r="43" fill="none" stroke="#c9a227" stroke-width="2"/>
+        <text x="50" y="48" text-anchor="middle" font-size="22" font-weight="bold" fill="#c9a227" font-family="serif">TK</text>
+        <text x="50" y="62" text-anchor="middle" font-size="7" fill="#fff" font-family="sans-serif">İHO</text>
+        <text x="50" y="73" text-anchor="middle" font-size="6" fill="#c9a227" font-family="sans-serif">PENDİK</text>
+        <polygon points="50,18 52,24 58,24 53,28 55,34 50,30 45,34 47,28 42,24 48,24" fill="#c9a227" opacity=".9"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="header-title">
+    <h1 id="school-name">Tahir Kaya İmam Hatip Ortaokulu</h1>
+    <p><span id="school-location">Pendik / İstanbul</span> &nbsp;·&nbsp; <span id="school-subtitle">Ders Programı Ekranı</span></p>
+  </div>
+
+  <div class="header-clock">
+    <div class="big-time" id="clock">--:--:--</div>
+    <div class="small-date" id="date-str">---</div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════ MAIN ════════════════════════════ -->
+<div class="main">
+
+  <!-- LEFT: Schedule -->
+  <div>
+    <div class="card" id="schedule-card">
+      <div class="bell-bar" id="bell-bar">
+        <div>
+          <div class="label">Zile Kalan Süre</div>
+          <div class="status-txt" id="bell-status">Yükleniyor...</div>
+        </div>
+        <div class="progress-wrap">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+        <div class="countdown" id="bell-timer">--:--</div>
+      </div>
+      <div class="card-header"><div class="dot"></div>Günlük Ders Çizelgesi</div>
+      <div id="schedule-body" class="schedule-body">
+        <div class="loading"><i class="fa-solid fa-spinner fa-pulse"></i> Program yükleniyor...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Announcements + Duty -->
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <div class="card">
+      <div class="card-header"><div class="dot"></div>📢 Duyuru Panosu</div>
+      <div class="announcement-panel" id="announcements">
+        <div class="loading"><i class="fa-solid fa-spinner fa-pulse"></i> Duyurular yükleniyor...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><div class="dot"></div>👮 Günün Nöbetçi Öğretmenleri</div>
+      <div class="duty-grid" id="duty-grid">
+        <div class="loading"><i class="fa-solid fa-spinner fa-pulse"></i> Nöbetçiler yükleniyor...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <span id="footer-text">Tahir Kaya İmam Hatip Ortaokulu · Pendik / İstanbul · MEB</span>
+  <span style="margin-left: 10px;" id="last-sync">📡 Veriler GitHub'dan çekiliyor...</span>
+</footer>
+
+<script>
+  // === GLOBAL DEĞİŞKENLER ===
+  let currentData = {
+    announcements: [],
+    duty: {},
+    schedulesByDay: {},
+    settings: {}
+  };
+  
+  // GitHub repo bilgisi (admin tarafından ayarlanacak - localStorage'a kaydedilir)
+  let GITHUB_REPO = localStorage.getItem('github_repo') || '';
+  let GITHUB_OWNER = '';
+  let GITHUB_REPO_NAME = '';
+
+  // Varsayılan ders programı (yedek)
+  const defaultSchedules = {
+    1: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: 'TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: 'TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: 'TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: 'TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:00', end: '13:40', type: 'lesson' }, { label: 'TENEFFÜS', start: '13:40', end: '13:50', type: 'break' }, { label: '8. DERS', start: '13:50', end: '14:30', type: 'lesson' }],
+    2: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: 'TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: 'TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: 'TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: 'TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:00', end: '13:40', type: 'lesson' }],
+    3: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: 'TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: 'TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: 'TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: 'TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:00', end: '13:40', type: 'lesson' }],
+    4: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: 'TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: 'TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: 'TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: 'TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:00', end: '13:40', type: 'lesson' }],
+    5: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: 'TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: 'TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: 'TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: 'TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: 'TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:30', end: '14:10', type: 'lesson' }]
+  };
+
+  // Yardımcı fonksiyonlar
+  function toMin(t) {
+    const [h, m] = t.split(':').map(Number);
+    return h * 60 + m;
+  }
+
+  function nowMin() {
+    const n = new Date();
+    return n.getHours() * 60 + n.getMinutes() + n.getSeconds() / 60;
+  }
+
+  function getDay() { return new Date().getDay(); } // 0=Sun,6=Sat
+  function isWeekend() { const d = getDay(); return d === 0 || d === 6; }
+
+  // === GITHUB'DAN VERİ ÇEKME ===
+  async function loadDataFromGitHub() {
+    // Repo bilgisini localStorage'dan al
+    GITHUB_REPO = localStorage.getItem('github_repo') || '';
+    
+    if (!GITHUB_REPO) {
+      console.warn('GitHub repo bilgisi ayarlanmamış. Varsayılan veriler kullanılıyor.');
+      useDefaultData();
+      return;
+    }
+
+    const [owner, repoName] = GITHUB_REPO.split('/');
+    if (!owner || !repoName) {
+      console.error('Repo formatı hatalı. Örnek: "kullanici/repo"');
+      useDefaultData();
+      return;
+    }
+
+    const dataUrl = `https://raw.githubusercontent.com/${owner}/${repoName}/main/data.json?t=${Date.now()}`;
+    
+    try {
+      const response = await fetch(dataUrl);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const data = await response.json();
+      
+      currentData = data;
+      
+      // Varsayılan değerleri kontrol et
+      if (!currentData.schedulesByDay || Object.keys(currentData.schedulesByDay).length === 0) {
+        currentData.schedulesByDay = defaultSchedules;
+      }
+      if (!currentData.duty) currentData.duty = {};
+      if (!currentData.announcements) currentData.announcements = [];
+      if (!currentData.settings) currentData.settings = {};
+      
+      // UI'ı güncelle
+      updateUI();
+      
+      const lastUpdate = data.updatedAt ? new Date(data.updatedAt).toLocaleString('tr-TR') : 'bilinmiyor';
+      document.getElementById('last-sync').innerHTML = `✅ Veriler GitHub'dan çekildi (${lastUpdate})`;
+      
+    } catch (error) {
+      console.error('Veri yükleme hatası:', error);
+      document.getElementById('last-sync').innerHTML = `⚠️ GitHub bağlantı hatası, varsayılan veriler kullanılıyor`;
+      useDefaultData();
+    }
+  }
+
+  function useDefaultData() {
+    currentData = {
+      announcements: [
+        { id: 1, title: 'İngilizce Proje Sınavı', type: 'red', date: '10 Mayıs 2026', desc: 'Saat 10:00', status: 'active', pinned: true },
+        { id: 2, title: 'Proje Sınıfı Kayıtları', type: 'gold', date: '08 Mayıs 2026', desc: 'Başvurular başladı', status: 'active', pinned: false },
+        { id: 3, title: 'Okul Aile Birliği', type: 'green', date: '15 Mayıs 2026', desc: 'Toplantı yapılacak', status: 'active', pinned: false }
+      ],
+      duty: {
+        "🌿 Bahçe": "Ahmet GÜLMEZ",
+        "🏢 Zemin Kat": "Elif ŞEN",
+        "1️⃣ 1. Kat": "Mehmet IŞIK",
+        "2️⃣ 2. Kat": "Arzu DOĞAN",
+        "🚻 Koridor": ""
+      },
+      schedulesByDay: defaultSchedules,
+      settings: {
+        schoolName: "Tahir Kaya İmam Hatip Ortaokulu",
+        location: "Pendik / İstanbul",
+        subtitle: "Ders Programı Ekranı"
+      }
+    };
+    updateUI();
+  }
+
+  // === UI GÜNCELLEME ===
+  function updateUI() {
+    // Okul bilgilerini güncelle
+    document.getElementById('school-name').textContent = currentData.settings.schoolName || 'Tahir Kaya İmam Hatip Ortaokulu';
+    document.getElementById('school-location').textContent = currentData.settings.location || 'Pendik / İstanbul';
+    document.getElementById('school-subtitle').textContent = currentData.settings.subtitle || 'Ders Programı Ekranı';
+    document.getElementById('footer-text').innerHTML = `${currentData.settings.schoolName || 'Tahir Kaya İmam Hatip Ortaokulu'} · ${currentData.settings.location || 'Pendik / İstanbul'} · MEB`;
+    
+    // Duyuruları güncelle
+    renderAnnouncements();
+    
+    // Nöbetçileri güncelle
+    renderDuty();
+    
+    // Ders programını güncelle
+    renderSchedule();
+    
+    // Zil timer'ı başlat
+    updateBell();
+  }
+
+  function renderAnnouncements() {
+    const panel = document.getElementById('announcements');
+    const active = currentData.announcements.filter(a => a.status === 'active').sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+    
+    if (active.length === 0) {
+      panel.innerHTML = '<div class="ann-item" style="text-align:center;padding:20px">Henüz duyuru yok.</div>';
+      return;
+    }
+    
+    const typeMap = { red: 'red', green: 'green', gold: 'gold', blue: 'blue' };
+    const typeIcon = { red: '🔴', green: '✅', gold: '📋', blue: '📚' };
+    
+    panel.innerHTML = active.map(a => `
+      <div class="ann-item">
+        <span class="ann-badge badge-${typeMap[a.type] || 'gray'}">${typeIcon[a.type] || '📢'} ${a.type === 'red' ? 'Önemli' : a.type === 'green' ? 'Genel' : a.type === 'gold' ? 'Başvuru' : 'Eğitim'}</span>
+        <div class="ann-title">${a.pinned ? '📌 ' : ''}${a.title}</div>
+        <div class="ann-desc">${a.desc || ''}</div>
+        <div class="ann-date">${a.date || ''}</div>
+      </div>
+    `).join('');
+  }
+
+  function renderDuty() {
+    const grid = document.getElementById('duty-grid');
+    const dutyAreas = [
+      { key: "🌿 Bahçe", icon: "🌿", label: "Bahçe" },
+      { key: "🏢 Zemin Kat", icon: "🏢", label: "Zemin Kat" },
+      { key: "1️⃣ 1. Kat", icon: "1️⃣", label: "1. Kat" },
+      { key: "2️⃣ 2. Kat", icon: "2️⃣", label: "2. Kat" },
+      { key: "🚻 Koridor", icon: "🚻", label: "Koridor" }
+    ];
+    
+    grid.innerHTML = dutyAreas.map(area => `
+      <div class="duty-item">
+        <div class="duty-role">${area.icon} ${area.label}</div>
+        <div class="duty-name">${currentData.duty[area.key] || '—'}</div>
+      </div>
+    `).join('');
+  }
+
+  function getTodaySchedule() {
+    const day = getDay();
+    if (day === 0 || day === 6) return [];
+    return currentData.schedulesByDay[day] || currentData.schedulesByDay[1] || defaultSchedules[1];
+  }
+
+  function renderSchedule() {
+    const body = document.getElementById('schedule-body');
+    const bellBar = document.getElementById('bell-bar');
+
+    if (isWeekend()) {
+      const dayName = getDay() === 6 ? 'Cumartesi' : 'Pazar';
+      body.innerHTML = `
+        <div class="weekend-msg">
+          <div class="icon">🌙</div>
+          <h2>Bugün ${dayName} – Tatil</h2>
+          <p>Hafta sonu tatilinde ders programı uygulanmaz.<br>Pazartesi görüşmek üzere! 📚</p>
+        </div>`;
+      bellBar.style.display = 'none';
+      return;
+    }
+
+    const schedule = getTodaySchedule();
+    if (!schedule.length) {
+      body.innerHTML = '<div class="weekend-msg"><div class="icon">📋</div><h2>Program bulunamadı</h2></div>';
+      return;
+    }
+
+    const nm = nowMin();
+    let html = '';
+
+    schedule.forEach(item => {
+      const start = toMin(item.start);
+      const end = toMin(item.end);
+      const isActive = nm >= start && nm < end;
+      const isPast = nm >= end;
+      const isLesson = item.type === 'lesson';
+      const dur = end - start;
+
+      let cls = 'period-row';
+      if (!isLesson) cls += ' break-row';
+      if (isActive) cls += ' active-row';
+      if (isPast) cls += ' past-row';
+
+      const icon = isLesson ? '📖' : '☕';
+      const badge = isActive ? `<span class="active-badge"><span class="pulse"></span>Şimdi</span>` : '';
+
+      html += `
+        <div class="${cls}">
+          <div class="period-label"><span class="icon">${icon}</span>${item.label}${badge}</div>
+          <div class="period-dur">${dur} dk</div>
+          <div class="period-time">${item.start} – ${item.end}</div>
+        </div>`;
+    });
+
+    body.innerHTML = html;
+    bellBar.style.display = 'flex';
+  }
+
+  function updateBell() {
+    if (isWeekend()) return;
+    const schedule = getTodaySchedule();
+    const now = new Date();
+    const nm = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+
+    let nextEnd = null, segStart = null, segEnd = null, label = '';
+
+    for (let i = 0; i < schedule.length; i++) {
+      const s = toMin(schedule[i].start);
+      const e = toMin(schedule[i].end);
+      if (nm < s) {
+        nextEnd = s;
+        segStart = nm;
+        segEnd = s;
+        label = schedule[i].type === 'lesson' ? '⏰ Derse kalan' : '☕ Teneffüse kalan';
+        break;
+      }
+      if (nm < e) {
+        nextEnd = e;
+        segStart = s;
+        segEnd = e;
+        label = schedule[i].type === 'lesson' ? '🔔 Zile kalan' : '📖 Derse kalan';
+        break;
+      }
+    }
+
+    const statusEl = document.getElementById('bell-status');
+    const timerEl = document.getElementById('bell-timer');
+    const progressEl = document.getElementById('progress-fill');
+
+    if (nextEnd === null) {
+      statusEl.textContent = '🎒 Bugünkü dersler sona erdi!';
+      timerEl.textContent = '--';
+      progressEl.style.width = '100%';
+      return;
+    }
+
+    const totalSec = Math.round((segEnd - segStart) * 60);
+    const passedSec = Math.round((nm - segStart) * 60);
+    const remSec = Math.max(0, Math.round((nextEnd - nm) * 60));
+    const pct = Math.min(100, Math.round(passedSec / totalSec * 100));
+
+    const m = Math.floor(remSec / 60);
+    const s = remSec % 60;
+    statusEl.textContent = label;
+    timerEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    progressEl.style.width = pct + '%';
+  }
+
+  // === SAAT GÜNCELLEME ===
+  function updateClock() {
+    const n = new Date();
+    const pad = v => String(v).padStart(2, '0');
+    document.getElementById('clock').textContent = `${pad(n.getHours())}:${pad(n.getMinutes())}:${pad(n.getSeconds())}`;
+
+    const days = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+    const months = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+    document.getElementById('date-str').textContent = `${days[n.getDay()]}, ${n.getDate()} ${months[n.getMonth()]} ${n.getFullYear()}`;
+  }
+
+  // === SAYFA AÇILINCA REPO BİLGİSİNİ AL ===
+  // URL'den repo parametresini okuyabilmek için (opsiyonel)
+  function getRepoFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const repo = params.get('repo');
+    if (repo) {
+      localStorage.setItem('github_repo', repo);
+      GITHUB_REPO = repo;
+    }
+  }
+
+  // === TICK ===
+  function tick() {
+    updateClock();
+    renderSchedule();
+    updateBell();
+  }
+
+  // === BAŞLAT ===
+  getRepoFromURL();
+  GITHUB_REPO = localStorage.getItem('github_repo') || '';
+  
+  // Verileri yükle
+  loadDataFromGitHub();
+  
+  // Timer'ları başlat
+  tick();
+  setInterval(tick, 1000);
+  // Her 60 saniyede bir yeniden kontrol et (opsiyonel)
+  setInterval(() => loadDataFromGitHub(), 60000);
+</script>
+</body>
+</html>
