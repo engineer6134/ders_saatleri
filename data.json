@@ -1,6 +1,15 @@
 {
   "announcements": [
     {
+      "id": 10,
+      "title": "maç",
+      "type": "green",
+      "date": "",
+      "desc": "amçaş",
+      "status": "active",
+      "pinned": false
+    },
+    {
       "id": 1,
       "title": "İngilizce Proje Sınavı",
       "type": "red",
@@ -454,5 +463,5 @@
     "location": "Pendik / İstanbul",
     "subtitle": "Ders Programı Ekranı"
   },
-  "updatedAt": "2026-05-12T12:35:05.369Z"
+  "updatedAt": "2026-05-12T12:35:24.145Z"
 }
