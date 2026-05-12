@@ -2,12 +2,30 @@
   "announcements": [
     {
       "id": 1,
-      "title": "Hoş Geldiniz",
-      "type": "green",
-      "date": "Bugün",
-      "desc": "Okul yönetim paneline hoş geldiniz.",
+      "title": "İngilizce Proje Sınavı",
+      "type": "red",
+      "date": "10 Mayıs 2026",
+      "desc": "Saat 10:00",
       "status": "active",
       "pinned": true
+    },
+    {
+      "id": 2,
+      "title": "Proje Sınıfı Kayıtları",
+      "type": "gold",
+      "date": "08 Mayıs 2026",
+      "desc": "Başvurular başladı",
+      "status": "active",
+      "pinned": false
+    },
+    {
+      "id": 3,
+      "title": "Okul Aile Birliği",
+      "type": "green",
+      "date": "15 Mayıs 2026",
+      "desc": "Toplantı yapılacak",
+      "status": "active",
+      "pinned": false
     }
   ],
   "duty": {
@@ -18,16 +36,423 @@
     "🚻 Koridor": ""
   },
   "schedulesByDay": {
-    "1": [],
-    "2": [],
-    "3": [],
-    "4": [],
-    "5": []
+    "1": [
+      {
+        "label": "1. DERS",
+        "start": "08:00",
+        "end": "08:40",
+        "type": "lesson"
+      },
+      {
+        "label": "1. TENEFFÜS",
+        "start": "08:40",
+        "end": "08:50",
+        "type": "break"
+      },
+      {
+        "label": "2. DERS",
+        "start": "08:50",
+        "end": "09:30",
+        "type": "lesson"
+      },
+      {
+        "label": "2. TENEFFÜS",
+        "start": "09:30",
+        "end": "09:40",
+        "type": "break"
+      },
+      {
+        "label": "3. DERS",
+        "start": "09:40",
+        "end": "10:20",
+        "type": "lesson"
+      },
+      {
+        "label": "3. TENEFFÜS",
+        "start": "10:20",
+        "end": "10:30",
+        "type": "break"
+      },
+      {
+        "label": "4. DERS",
+        "start": "10:30",
+        "end": "11:10",
+        "type": "lesson"
+      },
+      {
+        "label": "4. TENEFFÜS",
+        "start": "11:10",
+        "end": "11:20",
+        "type": "break"
+      },
+      {
+        "label": "5. DERS",
+        "start": "11:20",
+        "end": "12:00",
+        "type": "lesson"
+      },
+      {
+        "label": "5. TENEFFÜS",
+        "start": "12:00",
+        "end": "12:10",
+        "type": "break"
+      },
+      {
+        "label": "6. DERS",
+        "start": "12:10",
+        "end": "12:50",
+        "type": "lesson"
+      },
+      {
+        "label": "6. TENEFFÜS",
+        "start": "12:50",
+        "end": "13:00",
+        "type": "break"
+      },
+      {
+        "label": "7. DERS",
+        "start": "13:00",
+        "end": "13:40",
+        "type": "lesson"
+      },
+      {
+        "label": "7. TENEFFÜS",
+        "start": "13:40",
+        "end": "13:50",
+        "type": "break"
+      },
+      {
+        "label": "8. DERS",
+        "start": "13:50",
+        "end": "14:30",
+        "type": "lesson"
+      }
+    ],
+    "2": [
+      {
+        "label": "1. DERS",
+        "start": "08:00",
+        "end": "08:40",
+        "type": "lesson"
+      },
+      {
+        "label": "1. TENEFFÜS",
+        "start": "08:40",
+        "end": "08:50",
+        "type": "break"
+      },
+      {
+        "label": "2. DERS",
+        "start": "08:50",
+        "end": "09:30",
+        "type": "lesson"
+      },
+      {
+        "label": "2. TENEFFÜS",
+        "start": "09:30",
+        "end": "09:40",
+        "type": "break"
+      },
+      {
+        "label": "3. DERS",
+        "start": "09:40",
+        "end": "10:20",
+        "type": "lesson"
+      },
+      {
+        "label": "3. TENEFFÜS",
+        "start": "10:20",
+        "end": "10:30",
+        "type": "break"
+      },
+      {
+        "label": "4. DERS",
+        "start": "10:30",
+        "end": "11:10",
+        "type": "lesson"
+      },
+      {
+        "label": "4. TENEFFÜS",
+        "start": "11:10",
+        "end": "11:20",
+        "type": "break"
+      },
+      {
+        "label": "5. DERS",
+        "start": "11:20",
+        "end": "12:00",
+        "type": "lesson"
+      },
+      {
+        "label": "5. TENEFFÜS",
+        "start": "12:00",
+        "end": "12:10",
+        "type": "break"
+      },
+      {
+        "label": "6. DERS",
+        "start": "12:10",
+        "end": "12:50",
+        "type": "lesson"
+      },
+      {
+        "label": "6. TENEFFÜS",
+        "start": "12:50",
+        "end": "13:00",
+        "type": "break"
+      },
+      {
+        "label": "7. DERS",
+        "start": "13:00",
+        "end": "13:40",
+        "type": "lesson"
+      }
+    ],
+    "3": [
+      {
+        "label": "1. DERS",
+        "start": "08:00",
+        "end": "08:40",
+        "type": "lesson"
+      },
+      {
+        "label": "1. TENEFFÜS",
+        "start": "08:40",
+        "end": "08:50",
+        "type": "break"
+      },
+      {
+        "label": "2. DERS",
+        "start": "08:50",
+        "end": "09:30",
+        "type": "lesson"
+      },
+      {
+        "label": "2. TENEFFÜS",
+        "start": "09:30",
+        "end": "09:40",
+        "type": "break"
+      },
+      {
+        "label": "3. DERS",
+        "start": "09:40",
+        "end": "10:20",
+        "type": "lesson"
+      },
+      {
+        "label": "3. TENEFFÜS",
+        "start": "10:20",
+        "end": "10:30",
+        "type": "break"
+      },
+      {
+        "label": "4. DERS",
+        "start": "10:30",
+        "end": "11:10",
+        "type": "lesson"
+      },
+      {
+        "label": "4. TENEFFÜS",
+        "start": "11:10",
+        "end": "11:20",
+        "type": "break"
+      },
+      {
+        "label": "5. DERS",
+        "start": "11:20",
+        "end": "12:00",
+        "type": "lesson"
+      },
+      {
+        "label": "5. TENEFFÜS",
+        "start": "12:00",
+        "end": "12:10",
+        "type": "break"
+      },
+      {
+        "label": "6. DERS",
+        "start": "12:10",
+        "end": "12:50",
+        "type": "lesson"
+      },
+      {
+        "label": "6. TENEFFÜS",
+        "start": "12:50",
+        "end": "13:00",
+        "type": "break"
+      },
+      {
+        "label": "7. DERS",
+        "start": "13:00",
+        "end": "13:40",
+        "type": "lesson"
+      }
+    ],
+    "4": [
+      {
+        "label": "1. DERS",
+        "start": "08:00",
+        "end": "08:40",
+        "type": "lesson"
+      },
+      {
+        "label": "1. TENEFFÜS",
+        "start": "08:40",
+        "end": "08:50",
+        "type": "break"
+      },
+      {
+        "label": "2. DERS",
+        "start": "08:50",
+        "end": "09:30",
+        "type": "lesson"
+      },
+      {
+        "label": "2. TENEFFÜS",
+        "start": "09:30",
+        "end": "09:40",
+        "type": "break"
+      },
+      {
+        "label": "3. DERS",
+        "start": "09:40",
+        "end": "10:20",
+        "type": "lesson"
+      },
+      {
+        "label": "3. TENEFFÜS",
+        "start": "10:20",
+        "end": "10:30",
+        "type": "break"
+      },
+      {
+        "label": "4. DERS",
+        "start": "10:30",
+        "end": "11:10",
+        "type": "lesson"
+      },
+      {
+        "label": "4. TENEFFÜS",
+        "start": "11:10",
+        "end": "11:20",
+        "type": "break"
+      },
+      {
+        "label": "5. DERS",
+        "start": "11:20",
+        "end": "12:00",
+        "type": "lesson"
+      },
+      {
+        "label": "5. TENEFFÜS",
+        "start": "12:00",
+        "end": "12:10",
+        "type": "break"
+      },
+      {
+        "label": "6. DERS",
+        "start": "12:10",
+        "end": "12:50",
+        "type": "lesson"
+      },
+      {
+        "label": "6. TENEFFÜS",
+        "start": "12:50",
+        "end": "13:00",
+        "type": "break"
+      },
+      {
+        "label": "7. DERS",
+        "start": "13:00",
+        "end": "13:40",
+        "type": "lesson"
+      }
+    ],
+    "5": [
+      {
+        "label": "1. DERS",
+        "start": "08:00",
+        "end": "08:40",
+        "type": "lesson"
+      },
+      {
+        "label": "1. TENEFFÜS",
+        "start": "08:40",
+        "end": "08:50",
+        "type": "break"
+      },
+      {
+        "label": "2. DERS",
+        "start": "08:50",
+        "end": "09:30",
+        "type": "lesson"
+      },
+      {
+        "label": "2. TENEFFÜS",
+        "start": "09:30",
+        "end": "09:40",
+        "type": "break"
+      },
+      {
+        "label": "3. DERS",
+        "start": "09:40",
+        "end": "10:20",
+        "type": "lesson"
+      },
+      {
+        "label": "3. TENEFFÜS",
+        "start": "10:20",
+        "end": "10:30",
+        "type": "break"
+      },
+      {
+        "label": "4. DERS",
+        "start": "10:30",
+        "end": "11:10",
+        "type": "lesson"
+      },
+      {
+        "label": "4. TENEFFÜS",
+        "start": "11:10",
+        "end": "11:20",
+        "type": "break"
+      },
+      {
+        "label": "5. DERS",
+        "start": "11:20",
+        "end": "12:00",
+        "type": "lesson"
+      },
+      {
+        "label": "5. TENEFFÜS",
+        "start": "12:00",
+        "end": "12:10",
+        "type": "break"
+      },
+      {
+        "label": "6. DERS",
+        "start": "12:10",
+        "end": "12:50",
+        "type": "lesson"
+      },
+      {
+        "label": "6. TENEFFÜS",
+        "start": "12:50",
+        "end": "13:00",
+        "type": "break"
+      },
+      {
+        "label": "7. DERS",
+        "start": "13:30",
+        "end": "14:10",
+        "type": "lesson"
+      }
+    ]
   },
   "settings": {
     "schoolName": "Tahir Kaya İmam Hatip Ortaokulu",
     "location": "Pendik / İstanbul",
     "subtitle": "Ders Programı Ekranı"
   },
-  "updatedAt": "2026-01-01T00:00:00.000Z"
+  "updatedAt": "2026-05-12T12:31:30.921Z"
 }
