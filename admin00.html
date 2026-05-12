@@ -1197,26 +1197,32 @@
         function getCreds() { return { u: localStorage.getItem('iho_u') || DEF_U, p: localStorage.getItem('iho_p') || DEF_P }; }
 
         function doLogin() {
-            const u = document.getElementById('login-user').value.trim();
-            const p = document.getElementById('login-pass').value;
-            const token = document.getElementById('github-token').value.trim();
-            const repo = document.getElementById('github-repo').value.trim();
-            const c = getCreds();
-
-            if (u === c.u && p === c.p) {
-                sessionStorage.setItem('iho_auth', '1');
-                if (token) sessionStorage.setItem('github_token', token);
-                if (repo) sessionStorage.setItem('github_repo', repo);
-                githubToken = token;
-                githubRepo = repo;
-                document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('login-error').classList.remove('show');
-                loadInitialData();
-                toast('Giriş başarılı! GitHub token hazır.');
-            } else {
-                document.getElementById('login-error').classList.add('show');
-            }
-        }
+  const u = document.getElementById('login-user').value.trim();
+  const p = document.getElementById('login-pass').value;
+  const token = document.getElementById('github-token').value.trim();
+  const repo = document.getElementById('github-repo').value.trim();
+  const c = getCreds();
+  
+  if (u === c.u && p === c.p) {
+    sessionStorage.setItem('iho_auth', '1');
+    if (token) {
+      sessionStorage.setItem('github_token', token);
+      console.log('Token kaydedildi, ilk 10 karakter:', token.substring(0, 10));
+    }
+    if (repo) {
+      sessionStorage.setItem('github_repo', repo);
+      console.log('Repo kaydedildi:', repo);
+    }
+    githubToken = token;
+    githubRepo = repo;
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('login-error').classList.remove('show');
+    loadInitialData();
+    toast('Giriş başarılı! GitHub token hazır.');
+  } else {
+    document.getElementById('login-error').classList.add('show');
+  }
+}
 
         function doLogout() { sessionStorage.removeItem('iho_auth'); sessionStorage.removeItem('github_token'); sessionStorage.removeItem('github_repo'); location.reload(); }
 
