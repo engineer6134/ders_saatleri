@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetim Paneli – Tahir Kaya İHO</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Barlow+Condensed:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --green-dark: #1a5c3a;
+            --green-mid: #247a4e;
+            --green-light: #2ecc71;
+            --gold: #c9a227;
+            --gold-light: #f0c040;
+            --sidebar-bg: #0f3d26;
+            --sidebar-w: 240px;
+            --white: #ffffff;
+            --gray-50: #f8faf9;
+            --gray-100: #f0f4f2;
+            --gray-200: #dce6e1;
+            --gray-400: #9ab0a4;
+            --gray-600: #5a7a65;
+            --text: #1a2a1e;
+            --text-muted: #5a7a65;
+            --red: #c0392b;
+            --red-light: #fde8e8;
+            --blue: #1a3a8f;
+            --blue-light: #e8f0fe;
+            --radius: 10px;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--gray-100);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        #login-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, var(--sidebar-bg) 0%, var(--green-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        #login-screen.hidden {
+            display: none;
+        }
+
+        .login-box {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 40px 36px;
+            width: min(420px, 90vw);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--green-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 32px;
+        }
+
+        .login-box h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 22px;
+            color: var(--green-dark);
+            margin-bottom: 4px;
+        }
+
+        .login-box p {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .login-field {
+            position: relative;
+            margin-bottom: 14px;
+        }
+
+        .login-field input {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 9px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color .15s;
+        }
+
+        .login-field input:focus {
+            border-color: var(--green-mid);
+            box-shadow: 0 0 0 3px rgba(36, 122, 78, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--green-dark);
+            color: var(--gold-light);
+            border: none;
+            border-radius: 9px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .15s;
+            margin-top: 4px;
+        }
+
+        .login-btn:hover {
+            background: var(--green-mid);
+        }
+
+        .login-error {
+            background: #fde8e8;
+            color: var(--red);
+            border-radius: 8px;
+            padding: 9px 14px;
+            font-size: 13px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        .login-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 12px;
+        }
+
+        .github-info {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 16px;
+            text-align: left;
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .github-info i {
+            color: var(--green-dark);
+            margin-right: 5px;
+        }
+
+        .github-info code {
+            background: var(--gray-200);
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 10px;
+        }
+
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--sidebar-bg);
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            transition: transform .3s ease;
+        }
+
+        .sidebar-brand {
+            padding: 20px 16px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar-brand .school-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--gold-light);
+            letter-spacing: .5px;
+            line-height: 1.3;
+        }
+
+        .sidebar-brand .admin-tag {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.45);
+            margin-top: 2px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 12px 0;
+            overflow-y: auto;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.3);
+            padding: 14px 16px 6px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            color: rgba(255, 255, 255, 0.65);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all .15s;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: rgba(240, 192, 64, 0.12);
+            color: var(--gold-light);
+            border-left-color: var(--gold-light);
+        }
+
+        .nav-item i {
+            width: 18px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .sidebar-footer {
+            padding: 14px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--green-dark);
+            font-size: 22px;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 99;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        .main-wrap {
+            margin-left: var(--sidebar-w);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--green-dark);
+            letter-spacing: .5px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all .15s;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--green-dark);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-mid);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--gray-600);
+            border: 1px solid var(--gray-200);
+        }
+
+        .btn-ghost:hover {
+            background: var(--gray-100);
+        }
+
+        .btn-danger {
+            background: var(--red-light);
+            color: var(--red);
+            border: 1px solid #f5c0c0;
+        }
+
+        .btn-danger:hover {
+            background: #f9d0d0;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: #fff;
+        }
+
+        .btn-gold:hover {
+            background: var(--gold-light);
+            color: var(--text);
+        }
+
+        .btn-sm {
+            padding: 5px 11px;
+            font-size: 12px;
+        }
+
+        .page {
+            display: none;
+            padding: 24px 28px;
+            flex: 1;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.green {
+            background: #e6f9ef;
+        }
+
+        .stat-icon.gold {
+            background: #fdf3d0;
+        }
+
+        .stat-icon.red {
+            background: var(--red-light);
+        }
+
+        .stat-icon.blue {
+            background: var(--blue-light);
+        }
+
+        .stat-num {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .card-head {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--gray-100);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .card-head h2 {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--green-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-body {
+            padding: 18px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 9px 12px;
+            background: var(--gray-50);
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--gray-100);
+            vertical-align: middle;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover td {
+            background: var(--gray-50);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-red {
+            background: var(--red-light);
+            color: var(--red);
+        }
+
+        .badge-green {
+            background: #e8f9ef;
+            color: var(--green-dark);
+        }
+
+        .badge-gold {
+            background: #fdf3d0;
+            color: #7a5c00;
+        }
+
+        .badge-blue {
+            background: var(--blue-light);
+            color: var(--blue);
+        }
+
+        .badge-gray {
+            background: var(--gray-100);
+            color: var(--gray-600);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .form-grid.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 9px 12px;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--green-mid);
+            box-shadow: 0 0 0 3px rgba(36, 122, 78, 0.1);
+        }
+
+        .duty-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .duty-row:last-child {
+            border-bottom: none;
+        }
+
+        .duty-area {
+            min-width: 130px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .duty-row input {
+            flex: 1;
+            padding: 7px 10px;
+            border: 1px solid var(--gray-200);
+            border-radius: 7px;
+            font-family: 'Nunito', sans-serif;
+            font-size: 13px;
+        }
+
+        .section-divider {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gray-200);
+        }
+
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: var(--green-dark);
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: slideUp .3s ease;
+        }
+
+        .toast.error {
+            background: var(--red);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1
+            }
+        }
+
+        .sync-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #e6f9ef;
+            color: var(--green-dark);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .sync-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green-light);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .4
+            }
+        }
+
+        .site-footer {
+            background: var(--sidebar-bg);
+            color: rgba(255, 255, 255, 0.45);
+            text-align: center;
+            padding: 14px 20px;
+            font-size: 12px;
+            margin-left: var(--sidebar-w);
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 14px;
+            width: min(520px, 100%);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: var(--green-dark);
+            color: #fff;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 14px 20px;
+            border-top: 1px solid var(--gray-100);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .toggle-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle {
+            position: relative;
+            width: 42px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: var(--gray-200);
+            border-radius: 24px;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            left: 3px;
+            top: 3px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: .2s;
+        }
+
+        .toggle input:checked+.toggle-slider {
+            background: var(--green-light);
+        }
+
+        .toggle input:checked+.toggle-slider:before {
+            transform: translateX(18px);
+        }
+
+        .toggle-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        @media(max-width:680px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-wrap {
+                margin-left: 0;
+            }
+
+            .site-footer {
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .topbar-right {
+                gap: 5px;
+            }
+
+            .btn span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="login-screen">
+        <div class="login-box">
+            <div class="login-logo">🔐</div>
+            <h2>Yönetim Paneli</h2>
+            <p>Tahir Kaya İmam Hatip Ortaokulu</p>
+
+            <div class="login-field">
+                <input type="text" id="login-user" placeholder="Kullanıcı adı" autocomplete="username" value="admin">
+            </div>
+            <div class="login-field">
+                <input type="password" id="login-pass" placeholder="Şifre" autocomplete="current-password"
+                    value="okul2026" onkeydown="if(event.key==='Enter')doLogin()">
+            </div>
+
+            <div class="github-info">
+                <i class="fab fa-github"></i> <strong>GitHub Bağlantısı</strong><br>
+                <small>Değişiklikleri GitHub'a kaydetmek için bilgileri girin:</small>
+            </div>
+            <div class="login-field">
+                <input type="password" id="github-token" placeholder="GitHub Personal Access Token"
+                    value="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">
+            </div>
+            <div class="login-field">
+                <input type="text" id="github-repo" placeholder="Repo adı (örn: kullanici/repo)"
+                    value="engineer6134/ders_saatleri">
+            </div>
+
+            <button class="login-btn" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> Giriş
+                Yap</button>
+            <div class="login-error" id="login-error">Kullanıcı adı veya şifre hatalı!</div>
+            <p class="login-hint">
+                Varsayılan: <b>admin</b> / <b>okul2026</b><br>
+                <small>GitHub token için <code>repo</code> yetkisi gereklidir</small>
+            </p>
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="school-name">Tahir Kaya İHO</div>
+            <div class="admin-tag">⚙ Yönetim Paneli</div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-label">Genel</div>
+            <div class="nav-item active" onclick="showPage('dashboard')"><i class="fa-solid fa-house"></i> Kontrol
+                Paneli</div>
+            <div class="nav-label">İçerik</div>
+            <div class="nav-item" onclick="showPage('announcements')"><i class="fa-solid fa-bullhorn"></i> Duyurular
+            </div>
+            <div class="nav-item" onclick="showPage('duty')"><i class="fa-solid fa-user-shield"></i> Nöbetçi Bugün</div>
+            <div class="nav-item" onclick="showPage('schedule')"><i class="fa-solid fa-calendar-days"></i> Ders Programı
+            </div>
+            <div class="nav-label">Ayarlar</div>
+            <div class="nav-item" onclick="showPage('settings')"><i class="fa-solid fa-sliders"></i> Sayfa Ayarları
+            </div>
+            <div class="nav-item" onclick="showPage('security')"><i class="fa-solid fa-lock"></i> Güvenlik</div>
+        </nav>
+        <div class="sidebar-footer">
+            <span>v3.0 · GitHub Sync</span>
+            <button class="logout-btn" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i>
+                Çıkış</button>
+        </div>
+    </aside>
+
+    <div class="main-wrap">
+        <div class="topbar">
+            <div style="display:flex;align-items:center;gap:10px">
+                <button class="menu-toggle" onclick="openSidebar()"><i class="fa-solid fa-bars"></i></button>
+                <h1 id="page-title">Kontrol Paneli</h1>
+            </div>
+            <div class="topbar-right">
+                <span class="sync-badge" id="sync-status"><span class="sync-dot"></span> GitHub Hazır</span>
+                <button class="btn btn-primary" onclick="syncToGitHub()"><i class="fab fa-github"></i> GitHub'a
+                    Kaydet</button>
+                <button class="btn btn-ghost" onclick="loadFromGitHub()"><i class="fa-solid fa-download"></i> GitHub'dan
+                    Yükle</button>
+                <button class="btn btn-primary" onclick="window.open('index.html','_blank')"><i
+                        class="fa-solid fa-eye"></i> <span>Siteyi Gör</span></button>
+            </div>
+        </div>
+
+        <div class="page active" id="page-dashboard">
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-icon green">📢</div>
+                    <div>
+                        <div class="stat-num" id="stat-ann">0</div>
+                        <div class="stat-label">Aktif Duyuru</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon gold">👮</div>
+                    <div>
+                        <div class="stat-num">5</div>
+                        <div class="stat-label">Nöbet Alanı</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue">📚</div>
+                    <div>
+                        <div class="stat-num" id="stat-lessons">8</div>
+                        <div class="stat-label">Bugün Ders</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon red">📅</div>
+                    <div>
+                        <div class="stat-num" id="stat-day">-</div>
+                        <div class="stat-label">Bugün</div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-head">
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i> Son Duyurular</h2><button
+                        class="btn btn-ghost btn-sm" onclick="showPage('announcements')">Tümü</button>
+                </div>
+                <div class="card-body" id="dash-ann-list"></div>
+            </div>
+        </div>
+
+        <div class="page" id="page-announcements">
+            <div class="card">
+                <div class="card-head">
+                    <h2><i class="fa-solid fa-bullhorn"></i> Duyuru Listesi</h2><button class="btn btn-primary"
+                        onclick="openAnnModal()"><i class="fa-solid fa-plus"></i> Yeni Duyuru</button>
+                </div>
+                <div style="overflow-x:auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Başlık</th>
+                                <th>Tür</th>
+                                <th>Tarih</th>
+                                <th>Durum</th>
+                                <th>İşlem</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ann-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-duty">
+            <div class="card">
+                <div class="card-head">
+                    <h2><i class="fa-solid fa-user-shield"></i> Bugünün Nöbetçileri</h2><button class="btn btn-primary"
+                        onclick="saveDuty()"><i class="fa-solid fa-floppy-disk"></i> Yerel Kaydet</button>
+                </div>
+                <div class="card-body">
+                    <div class="duty-row">
+                        <div class="duty-area">🌿 Bahçe</div><input type="text" id="duty-bahce" value="Ahmet GÜLMEZ">
+                    </div>
+                    <div class="duty-row">
+                        <div class="duty-area">🏢 Zemin Kat</div><input type="text" id="duty-zemin" value="Elif ŞEN">
+                    </div>
+                    <div class="duty-row">
+                        <div class="duty-area">1️⃣ 1. Kat</div><input type="text" id="duty-kat1" value="Mehmet IŞIK">
+                    </div>
+                    <div class="duty-row">
+                        <div class="duty-area">2️⃣ 2. Kat</div><input type="text" id="duty-kat2" value="Arzu DOĞAN">
+                    </div>
+                    <div class="duty-row">
+                        <div class="duty-area">🚻 Koridor</div><input type="text" id="duty-koridor" placeholder="—">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-schedule">
+            <div class="card">
+                <div class="card-head">
+                    <h2><i class="fa-solid fa-calendar-days"></i> Ders Programı</h2><button class="btn btn-primary"
+                        onclick="saveSchedule()"><i class="fa-solid fa-floppy-disk"></i> Yerel Kaydet</button>
+                </div>
+                <div class="card-body">
+                    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+                        <button class="btn btn-ghost btn-sm" id="day-btn-1" onclick="selectDay(1)">Pazartesi</button>
+                        <button class="btn btn-ghost btn-sm" id="day-btn-2" onclick="selectDay(2)">Salı</button>
+                        <button class="btn btn-ghost btn-sm" id="day-btn-3" onclick="selectDay(3)">Çarşamba</button>
+                        <button class="btn btn-ghost btn-sm" id="day-btn-4" onclick="selectDay(4)">Perşembe</button>
+                        <button class="btn btn-ghost btn-sm" id="day-btn-5" onclick="selectDay(5)">Cuma</button>
+                    </div>
+                    <div id="schedule-editor-body"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-settings">
+            <div class="card">
+                <div class="card-head">
+                    <h2><i class="fa-solid fa-building-columns"></i> Okul Bilgileri</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-grid full" style="gap:12px">
+                        <div class="form-group"><label>Okul Adı</label><input type="text" id="set-school-name"
+                                value="Tahir Kaya İmam Hatip Ortaokulu"></div>
+                        <div class="form-group"><label>İlçe / Şehir</label><input type="text" id="set-district"
+                                value="Pendik / İstanbul"></div>
+                        <div class="form-group"><label>Alt Başlık</label><input type="text" id="set-subtitle"
+                                value="Ders Programı Ekranı"></div>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top:14px;width:100%" onclick="saveSettings()"><i
+                            class="fa-solid fa-floppy-disk"></i> Yerel Kaydet</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-security">
+            <div class="card">
+                <div class="card-head">
+                    <h2><i class="fa-solid fa-lock"></i> Şifre Değiştir</h2>
+                </div>
+                <div class="card-body">
+                    <div class="form-grid full" style="gap:14px">
+                        <div class="form-group"><label>Mevcut Şifre</label><input type="password" id="sec-old-pass"
+                                placeholder="Mevcut şifreniz"></div>
+                        <div class="form-group"><label>Yeni Kullanıcı Adı</label><input type="text" id="sec-new-user"
+                                placeholder="Değiştirmek için doldurun"></div>
+                        <div class="form-group"><label>Yeni Şifre</label><input type="password" id="sec-new-pass"
+                                placeholder="En az 6 karakter"></div>
+                        <div class="form-group"><label>Yeni Şifre (Tekrar)</label><input type="password"
+                                id="sec-new-pass2" placeholder="Şifreyi tekrar girin"></div>
+                    </div>
+                    <button class="btn btn-primary" style="margin-top:16px;width:100%" onclick="changePassword()"><i
+                            class="fa-solid fa-key"></i> Şifreyi Değiştir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        Tahir Kaya İmam Hatip Ortaokulu · Pendik / İstanbul · MEB · <span id="github-status">GitHub Sync Aktif</span>
+    </footer>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <div class="modal-overlay" id="ann-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modal-title">Duyuru</h3><button class="modal-close" onclick="closeAnnModal()"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid" style="gap:12px">
+                    <div class="form-group" style="grid-column:1/-1"><label>Başlık</label><input type="text"
+                            id="ann-title" placeholder="Duyuru başlığı"></div>
+                    <div class="form-group"><label>Tür</label><select id="ann-type">
+                            <option value="red">🔴 Önemli</option>
+                            <option value="green">✅ Genel</option>
+                            <option value="gold">📋 Başvuru</option>
+                            <option value="blue">📚 Eğitim</option>
+                        </select></div>
+                    <div class="form-group"><label>Tarih</label><input type="text" id="ann-date"
+                            placeholder="örn. 15 Mayıs 2026"></div>
+                    <div class="form-group" style="grid-column:1/-1"><label>Açıklama</label><textarea id="ann-desc"
+                            placeholder="Duyuru metni..."></textarea></div>
+                    <div class="form-group"><label>Durum</label><select id="ann-status">
+                            <option value="active">Aktif</option>
+                            <option value="draft">Taslak</option>
+                        </select></div>
+                    <div class="toggle-wrap"><label class="toggle"><input type="checkbox" id="ann-pinned"><span
+                                class="toggle-slider"></span></label><span class="toggle-label">Sabitle</span></div>
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-ghost" onclick="closeAnnModal()">İptal</button><button
+                    class="btn btn-primary" onclick="saveAnn()">Kaydet</button></div>
+        </div>
+    </div>
+
+    <script>
+        // === GLOBAL DEĞİŞKENLER ===
+        let announcements = [];
+        let dutyData = { "🌿 Bahçe": "Ahmet GÜLMEZ", "🏢 Zemin Kat": "Elif ŞEN", "1️⃣ 1. Kat": "Mehmet IŞIK", "2️⃣ 2. Kat": "Arzu DOĞAN", "🚻 Koridor": "" };
+        let schedulesByDay = {};
+        let editingAnnId = null;
+        let nextAnnId = 10;
+        let selectedDay = 1;
+        let githubToken = "";
+        let githubRepo = "";
+
+        const DUTY_AREAS = ['🌿 Bahçe', '🏢 Zemin Kat', '1️⃣ 1. Kat', '2️⃣ 2. Kat', '🚻 Koridor'];
+        const DUTY_FIELD_IDS = ['duty-bahce', 'duty-zemin', 'duty-kat1', 'duty-kat2', 'duty-koridor'];
+
+        const defaultSchedules = {
+            1: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: '1. TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: '2. TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: '3. TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: '4. TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: '5. TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: '6. TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:00', end: '13:40', type: 'lesson' }, { label: '7. TENEFFÜS', start: '13:40', end: '13:50', type: 'break' }, { label: '8. DERS', start: '13:50', end: '14:30', type: 'lesson' }],
+            2: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: '1. TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: '2. TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: '3. TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: '4. TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: '5. TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: '6. TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:00', end: '13:40', type: 'lesson' }],
+            3: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: '1. TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: '2. TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: '3. TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: '4. TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: '5. TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: '6. TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:00', end: '13:40', type: 'lesson' }],
+            4: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: '1. TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: '2. TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: '3. TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: '4. TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: '5. TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: '6. TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:00', end: '13:40', type: 'lesson' }],
+            5: [{ label: '1. DERS', start: '08:00', end: '08:40', type: 'lesson' }, { label: '1. TENEFFÜS', start: '08:40', end: '08:50', type: 'break' }, { label: '2. DERS', start: '08:50', end: '09:30', type: 'lesson' }, { label: '2. TENEFFÜS', start: '09:30', end: '09:40', type: 'break' }, { label: '3. DERS', start: '09:40', end: '10:20', type: 'lesson' }, { label: '3. TENEFFÜS', start: '10:20', end: '10:30', type: 'break' }, { label: '4. DERS', start: '10:30', end: '11:10', type: 'lesson' }, { label: '4. TENEFFÜS', start: '11:10', end: '11:20', type: 'break' }, { label: '5. DERS', start: '11:20', end: '12:00', type: 'lesson' }, { label: '5. TENEFFÜS', start: '12:00', end: '12:10', type: 'break' }, { label: '6. DERS', start: '12:10', end: '12:50', type: 'lesson' }, { label: '6. TENEFFÜS', start: '12:50', end: '13:00', type: 'break' }, { label: '7. DERS', start: '13:30', end: '14:10', type: 'lesson' }]
+        };
+        schedulesByDay = JSON.parse(JSON.stringify(defaultSchedules));
+
+        // === AUTH ===
+        const DEF_U = 'admin', DEF_P = 'okul2026';
+        function getCreds() { return { u: localStorage.getItem('iho_u') || DEF_U, p: localStorage.getItem('iho_p') || DEF_P }; }
+
+        function doLogin() {
+            const u = document.getElementById('login-user').value.trim();
+            const p = document.getElementById('login-pass').value;
+            const token = document.getElementById('github-token').value.trim();
+            const repo = document.getElementById('github-repo').value.trim();
+            const c = getCreds();
+
+            if (u === c.u && p === c.p) {
+                sessionStorage.setItem('iho_auth', '1');
+                if (token) sessionStorage.setItem('github_token', token);
+                if (repo) sessionStorage.setItem('github_repo', repo);
+                githubToken = token;
+                githubRepo = repo;
+                document.getElementById('login-screen').classList.add('hidden');
+                document.getElementById('login-error').classList.remove('show');
+                loadInitialData();
+                toast('Giriş başarılı! GitHub token hazır.');
+            } else {
+                document.getElementById('login-error').classList.add('show');
+            }
+        }
+
+        function doLogout() { sessionStorage.removeItem('iho_auth'); sessionStorage.removeItem('github_token'); sessionStorage.removeItem('github_repo'); location.reload(); }
+
+        function changePassword() {
+            const op = document.getElementById('sec-old-pass').value;
+            const nu = document.getElementById('sec-new-user').value.trim();
+            const np = document.getElementById('sec-new-pass').value;
+            const np2 = document.getElementById('sec-new-pass2').value;
+            const c = getCreds();
+            if (op !== c.p) { toast('Mevcut şifre hatalı!', 'error'); return; }
+            if (np.length < 6) { toast('Şifre en az 6 karakter olmalı!', 'error'); return; }
+            if (np !== np2) { toast('Şifreler eşleşmiyor!', 'error'); return; }
+            if (nu) localStorage.setItem('iho_u', nu);
+            localStorage.setItem('iho_p', np);
+            toast('Şifre güncellendi ✓');
+            ['sec-old-pass', 'sec-new-pass', 'sec-new-pass2'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        // === GITHUB API ===
+        async function syncToGitHub() {
+            const token = sessionStorage.getItem('github_token') || githubToken;
+            const repo = sessionStorage.getItem('github_repo') || githubRepo;
+
+            if (!token || !repo) {
+                toast('Lütfen önce GitHub bilgilerinizi giriş ekranından girin!', 'error');
+                return;
+            }
+
+            const cleanToken = token.trim();
+            const [owner, repoName] = repo.split('/');
+
+            if (!owner || !repoName) {
+                toast('Repo formatı: "kullanici/repo" şeklinde olmalı!', 'error');
+                return;
+            }
+
+            toast('GitHub\'a kaydediliyor...');
+
+            try {
+                const dutyObj = {};
+                DUTY_AREAS.forEach((area, i) => {
+                    dutyObj[area] = document.getElementById(DUTY_FIELD_IDS[i])?.value || '';
+                });
+
+                const payload = {
+                    announcements: announcements,
+                    duty: dutyObj,
+                    schedulesByDay: schedulesByDay,
+                    settings: {
+                        schoolName: document.getElementById('set-school-name')?.value || 'Tahir Kaya İmam Hatip Ortaokulu',
+                        location: document.getElementById('set-district')?.value || 'Pendik / İstanbul',
+                        subtitle: document.getElementById('set-subtitle')?.value || 'Ders Programı Ekranı'
+                    },
+                    updatedAt: new Date().toISOString()
+                };
+
+                const jsonString = JSON.stringify(payload, null, 2);
+                const contentBase64 = btoa(unescape(encodeURIComponent(jsonString)));
+                const apiUrl = `https://api.github.com/repos/${owner}/${repoName}/contents/data.json`;
+
+                let sha = null;
+                const getRes = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: { 'Authorization': `Bearer ${cleanToken}`, 'Accept': 'application/vnd.github.v3+json' }
+                });
+
+                if (getRes.ok) {
+                    const fileData = await getRes.json();
+                    sha = fileData.sha;
+                } else if (getRes.status !== 404) {
+                    const err = await getRes.json();
+                    throw new Error(`Dosya kontrol hatası: ${err.message}`);
+                }
+
+                const putRes = await fetch(apiUrl, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${cleanToken}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify({
+                        message: `Veri güncellemesi - ${new Date().toLocaleString('tr-TR')}`,
+                        content: contentBase64,
+                        sha: sha
+                    })
+                });
+
+                if (putRes.ok) {
+                    toast('✅ Veriler GitHub\'a başarıyla kaydedildi!');
+                    document.getElementById('github-status').innerHTML = '✓ Son kayıt: ' + new Date().toLocaleTimeString('tr-TR');
+                } else {
+                    const errorData = await putRes.json();
+                    toast('❌ GitHub hatası: ' + (errorData.message || 'Bilinmeyen hata'), 'error');
+                }
+            } catch (e) {
+                toast('Bağlantı hatası: ' + e.message, 'error');
+            }
+        }
+
+        async function loadFromGitHub() {
+            const token = sessionStorage.getItem('github_token') || githubToken;
+            const repo = sessionStorage.getItem('github_repo') || githubRepo;
+
+            if (!token || !repo) {
+                toast('GitHub bilgileri eksik!', 'error');
+                return;
+            }
+
+            const [owner, repoName] = repo.split('/');
+            const rawUrl = `https://raw.githubusercontent.com/${owner}/${repoName}/main/data.json?t=${Date.now()}`;
+
+            try {
+                toast('GitHub\'dan veriler çekiliyor...');
+                const res = await fetch(rawUrl);
+                if (!res.ok) throw new Error(`HTTP ${res.status} - Dosya bulunamadı`);
+                const data = await res.json();
+
+                if (data.announcements) announcements = data.announcements;
+                if (data.duty) {
+                    DUTY_AREAS.forEach((area, i) => {
+                        if (data.duty[area]) document.getElementById(DUTY_FIELD_IDS[i]).value = data.duty[area];
+                    });
+                }
+                if (data.schedulesByDay) schedulesByDay = data.schedulesByDay;
+                if (data.settings) {
+                    if (data.settings.schoolName) document.getElementById('set-school-name').value = data.settings.schoolName;
+                    if (data.settings.location) document.getElementById('set-district').value = data.settings.location;
+                    if (data.settings.subtitle) document.getElementById('set-subtitle').value = data.settings.subtitle;
+                }
+
+                renderAnnTable();
+                renderDashboard();
+                renderScheduleEditor();
+                toast('✅ Veriler GitHub\'dan başarıyla yüklendi!');
+            } catch (e) {
+                toast('GitHub\'dan yükleme hatası: ' + e.message, 'error');
+            }
+        }
+
+        // === UI RENDER ===
+        function renderDashboard() {
+            const activeCount = announcements.filter(a => a.status === 'active').length;
+            document.getElementById('stat-ann').textContent = activeCount;
+            const days = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+            document.getElementById('stat-day').textContent = days[new Date().getDay()];
+
+            const list = document.getElementById('dash-ann-list');
+            const active = announcements.filter(a => a.status === 'active').slice(0, 5);
+            list.innerHTML = active.map(a =>
+                `<div style="padding:8px 0;border-bottom:1px solid var(--gray-100)"><span class="badge badge-${a.type}">${a.type === 'red' ? '🔴' : a.type === 'green' ? '✅' : a.type === 'gold' ? '📋' : '📚'}</span> <strong>${a.title}</strong><br><small style="color:gray">${a.date}</small></div>`
+            ).join('') || '<p>Henüz duyuru yok.</p>';
+        }
+
+        function renderAnnTable() {
+            const tbody = document.getElementById('ann-table-body');
+            const sorted = [...announcements].sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+            tbody.innerHTML = sorted.map(a => `
+        <tr>
+          <td>${a.pinned ? '📌 ' : ''}${a.title}</td>
+          <td><span class="badge badge-${a.type}">${a.type === 'red' ? '🔴 Önemli' : a.type === 'green' ? '✅ Genel' : a.type === 'gold' ? '📋 Başvuru' : '📚 Eğitim'}</span></td>
+          <td>${a.date}</td>
+          <td><span class="badge ${a.status === 'active' ? 'badge-green' : 'badge-gray'}">${a.status === 'active' ? 'Aktif' : 'Taslak'}</span></td>
+          <td><button class="btn btn-ghost btn-sm" onclick="editAnn(${a.id})"><i class="fa-solid fa-pen"></i></button> <button class="btn btn-danger btn-sm" onclick="deleteAnn(${a.id})"><i class="fa-solid fa-trash"></i></button></td>
+        </tr>
+      `).join('');
+            if (announcements.length === 0) tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px">Henüz duyuru yok.</td></tr>';
+        }
+
+        function renderScheduleEditor() {
+            const schedule = schedulesByDay[selectedDay] || schedulesByDay[1];
+            const editor = document.getElementById('schedule-editor-body');
+            editor.innerHTML = schedule.map((item, idx) => `
+        <div style="display:flex;align-items:center;gap:10px;padding:8px;margin-bottom:5px;background:${item.type === 'lesson' ? 'var(--gray-50)' : '#f0faf5'};border-radius:8px">
+          <span style="width:100px;font-weight:700">${item.label}</span>
+          <input type="time" value="${item.start}" onchange="schedulesByDay[${selectedDay}][${idx}].start=this.value" style="padding:5px;border:1px solid #ddd;border-radius:6px">
+          <span>→</span>
+          <input type="time" value="${item.end}" onchange="schedulesByDay[${selectedDay}][${idx}].end=this.value" style="padding:5px;border:1px solid #ddd;border-radius:6px">
+        </div>
+      `).join('');
+        }
+
+        // === CRUD ===
+        function openAnnModal(id = null) {
+            editingAnnId = id;
+            if (id) {
+                const ann = announcements.find(a => a.id === id);
+                if (ann) {
+                    document.getElementById('ann-title').value = ann.title;
+                    document.getElementById('ann-type').value = ann.type;
+                    document.getElementById('ann-date').value = ann.date;
+                    document.getElementById('ann-desc').value = ann.desc;
+                    document.getElementById('ann-status').value = ann.status;
+                    document.getElementById('ann-pinned').checked = ann.pinned;
+                }
+            } else {
+                document.getElementById('ann-title').value = '';
+                document.getElementById('ann-date').value = '';
+                document.getElementById('ann-desc').value = '';
+                document.getElementById('ann-type').value = 'green';
+                document.getElementById('ann-status').value = 'active';
+                document.getElementById('ann-pinned').checked = false;
+            }
+            document.getElementById('ann-modal').classList.add('open');
+        }
+
+        function closeAnnModal() { document.getElementById('ann-modal').classList.remove('open'); editingAnnId = null; }
+
+        function saveAnn() {
+            const title = document.getElementById('ann-title').value.trim();
+            if (!title) { toast('Başlık gerekli!', 'error'); return; }
+            const newAnn = {
+                id: editingAnnId || nextAnnId++,
+                title: title,
+                type: document.getElementById('ann-type').value,
+                date: document.getElementById('ann-date').value,
+                desc: document.getElementById('ann-desc').value,
+                status: document.getElementById('ann-status').value,
+                pinned: document.getElementById('ann-pinned').checked
+            };
+            if (editingAnnId) {
+                const idx = announcements.findIndex(a => a.id === editingAnnId);
+                if (idx !== -1) announcements[idx] = newAnn;
+            } else {
+                announcements.unshift(newAnn);
+            }
+            closeAnnModal();
+            renderAnnTable();
+            renderDashboard();
+            toast('Duyuru kaydedildi ✓');
+        }
+
+        function deleteAnn(id) {
+            if (confirm('Silmek istediğinize emin misiniz?')) {
+                announcements = announcements.filter(a => a.id !== id);
+                renderAnnTable();
+                renderDashboard();
+                toast('Duyuru silindi');
+            }
+        }
+
+        function editAnn(id) { openAnnModal(id); }
+        function saveDuty() { toast('Nöbetçiler yerel olarak kaydedildi. GitHub\'a kaydetmek için üstteki butonu kullanın.'); }
+        function saveSchedule() { toast('Ders programı yerel olarak kaydedildi. GitHub\'a kaydetmek için üstteki butonu kullanın.'); }
+        function saveSettings() { toast('Ayarlar yerel olarak kaydedildi. GitHub\'a kaydetmek için üstteki butonu kullanın.'); }
+
+        function selectDay(d) {
+            selectedDay = d;
+            for (let i = 1; i <= 5; i++) {
+                const btn = document.getElementById('day-btn-' + i);
+                if (btn) {
+                    btn.style.background = i === d ? 'var(--green-dark)' : '';
+                    btn.style.color = i === d ? '#fff' : '';
+                }
+            }
+            renderScheduleEditor();
+        }
+
+        function loadInitialData() {
+            if (announcements.length === 0) {
+                announcements = [
+                    { id: 1, title: 'İngilizce Proje Sınavı', type: 'red', date: '10 Mayıs 2026', desc: 'Saat 10:00', status: 'active', pinned: true },
+                    { id: 2, title: 'Proje Sınıfı Kayıtları', type: 'gold', date: '08 Mayıs 2026', desc: 'Başvurular başladı', status: 'active', pinned: false },
+                    { id: 3, title: 'Okul Aile Birliği', type: 'green', date: '15 Mayıs 2026', desc: 'Toplantı yapılacak', status: 'active', pinned: false }
+                ];
+                nextAnnId = 10;
+            }
+            renderAnnTable();
+            renderDashboard();
+            selectDay(1);
+
+            githubToken = sessionStorage.getItem('github_token') || '';
+            githubRepo = sessionStorage.getItem('github_repo') || '';
+            if (githubToken && githubRepo) {
+                document.getElementById('github-status').innerHTML = `✓ GitHub bağlı: ${githubRepo}`;
+                document.getElementById('sync-status').innerHTML = '<span class="sync-dot"></span> GitHub Bağlı';
+            }
+        }
+
+        function toast(msg, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast' + (type === 'error' ? ' error' : '');
+            toast.innerHTML = `<i class="fa-solid fa-${type === 'error' ? 'circle-xmark' : 'circle-check'}"></i> ${msg}`;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('page-' + id).classList.add('active');
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => { if (item.getAttribute('onclick') === `showPage('${id}')`) item.classList.add('active'); });
+            closeSidebar();
+        }
+
+        function openSidebar() { document.getElementById('sidebar').classList.add('open'); document.getElementById('sidebar-overlay').classList.add('show'); }
+        function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebar-overlay').classList.remove('show'); }
+
+        if (sessionStorage.getItem('iho_auth') === '1') {
+            document.getElementById('login-screen').classList.add('hidden');
+            loadInitialData();
+            githubToken = sessionStorage.getItem('github_token') || '';
+            githubRepo = sessionStorage.getItem('github_repo') || '';
+            if (githubToken && githubRepo) {
+                document.getElementById('github-status').innerHTML = `✓ GitHub bağlı: ${githubRepo}`;
+            }
+        }
+    </script>
+</body>
+
+</html>
